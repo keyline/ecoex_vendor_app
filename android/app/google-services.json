@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "493591388467",
+    "project_id": "ecoex-d01c3",
+    "storage_bucket": "ecoex-d01c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493591388467:android:44a1569a608e831f095e46",
+        "android_client_info": {
+          "package_name": "com.ecoex.keyline"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaw0vLjWoFnbex9YJjRVu098tCIVXOyys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493591388467:android:e6092dde60084626095e46",
+        "android_client_info": {
+          "package_name": "com.ecoexvendor.keyline"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaw0vLjWoFnbex9YJjRVu098tCIVXOyys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

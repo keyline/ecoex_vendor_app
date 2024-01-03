@@ -1,4 +1,4 @@
-package com.ecoex_vendor
+package com.ecoexvendor.keyline
 
 import android.app.Application
 import com.facebook.react.PackageList

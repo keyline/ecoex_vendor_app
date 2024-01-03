@@ -12,6 +12,7 @@ import { setAccessToken, setUserData } from '../../../Service/AsyncStorage'
 import DeviceInfo from 'react-native-device-info'
 import LoaderTransparent from '../../../Container/LoaderTransparent'
 import { OtpInput } from "react-native-otp-entry";
+import { generateFcmToken, getFcmPermission } from '../../../Service/DeviceToken'
 
 const OtpValidate = ({ navigation, route }) => {
 
@@ -116,8 +117,8 @@ const OtpValidate = ({ navigation, route }) => {
                     btnLoading: true
                 }))
                 if (page == 'login') {
-                    // let premission = await getFcmPermission();
-                    // let token = await generateFcmToken();
+                    let premission = await getFcmPermission();
+                    let token = await generateFcmToken();
                     let deviceId = DeviceInfo.getDeviceId();
                     let datas = {
                         phone: state.data?.phone,

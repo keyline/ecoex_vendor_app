@@ -10,6 +10,8 @@ import { styles } from './styles'
 import Button from '../../../Container/Button'
 import InputField from '../../../Container/InputField'
 import DeviceInfo from 'react-native-device-info'
+import { generateFcmToken, getFcmPermission } from '../../../Service/DeviceToken'
+import { isValidEmail } from '../../../Service/Valid'
 
 const Login = ({ navigation }) => {
 
@@ -85,9 +87,8 @@ const Login = ({ navigation }) => {
     } else {
       try {
         showLoading();
-        // let premission = await getFcmPermission();
-        // let token = await generateFcmToken();
-        let token = ''
+        let premission = await getFcmPermission();
+        let token = await generateFcmToken();
         let deviceId = DeviceInfo.getDeviceId();
         let datas = {
           type: 'VENDOR',

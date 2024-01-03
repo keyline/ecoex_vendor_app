@@ -22,7 +22,7 @@ export default class Apis {
     static company_details = (data) => {
         return Network('post', 'get-company-details', data)
     }
-    
+
     static forgot_password = (data) => {
         return Network('post', 'forgot-password', data)
     }
@@ -73,5 +73,17 @@ export default class Apis {
 
     static signup_otpvalidate = (data) => {
         return Network('post', 'signup-otp-verify', data)
+    }
+
+    static get_profile = () => {
+        return Network('post', 'get-profile')
+    }
+
+    static update_profile = (data) => {
+        return Network('post', 'update-profile', data)
+    }
+
+    static plant_dashboard = () => {
+        return Network('post', 'dashboard')
     }
 }

@@ -8,6 +8,7 @@ import OtpValidate from '../../Screen/AuthScreen/OtpValidate';
 import ResetPassword from '../../Screen/AuthScreen/ResetPassword';
 import LoginWithMobile from '../../Screen/AuthScreen/LoginWithMobile';
 import StaticPage from '../../Screen/CommonScreen/StaticPage';
+import PdfViewer from '../../Screen/CommonScreen/PdfViewer';
 
 const AuthMainStack = () => {
 
@@ -27,6 +28,7 @@ const AuthMainStack = () => {
             <Stack.Screen name='OtpValidate' component={OtpValidate} />
             <Stack.Screen name='ResetPassword' component={ResetPassword} />
             <Stack.Screen name='StaticPage' component={StaticPage} />
+            <Stack.Screen name='PdfViewer' component={PdfViewer} />
         </Stack.Navigator>
     )
 }

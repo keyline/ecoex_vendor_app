@@ -2,12 +2,17 @@ import { View, Text, StatusBar } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import AuthContext from './App/Service/Context'
 import { NavigationContainer } from '@react-navigation/native'
-import { navigationRef } from './App/Service/NavigationRef'
+import { navigate, navigationRef } from './App/Service/NavigationRef'
 import AuthMainStack from './App/Navigation/AuthStack/AuthMainStack'
-import { getAccessToken, getStoreFcmToken, getUserData } from './App/Service/AsyncStorage'
+import { clearUserData, getAccessToken, getStoreFcmToken, getUserData } from './App/Service/AsyncStorage'
 import Apis from './App/Service/Apis'
 import { ToastError, ToastMessage } from './App/Service/CommonFunction'
 import SplashScreen from 'react-native-splash-screen'
+import { generateFcmToken, getFcmPermission } from './App/Service/DeviceToken'
+import messaging from '@react-native-firebase/messaging'
+import notifee, { EventType } from '@notifee/react-native';
+import { Notification } from './App/Service/Notification'
+import DrawerStack from './App/Navigation/MainStack/DrawerStack'
 
 const App = () => {
 
@@ -22,7 +27,71 @@ const App = () => {
   })
 
   useEffect(() => {
-    // onGetDeviceToken();
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      if (__DEV__) {
+        console.log('ForgroundMessage', JSON.stringify(remoteMessage));
+      }
+      let title = remoteMessage.notification.title
+      let body = remoteMessage.notification.body
+      let data = remoteMessage.data
+      Notification(title, body, data);
+    })
+    return () => unsubscribe
+  }, [])
+
+  useEffect(() => {
+    //for Background state Notification
+    const unsubscribes = messaging().onNotificationOpenedApp(remoteMessage => {
+      if (__DEV__) {
+        console.log('Notification caused app to open from background states:', remoteMessage);
+      }
+      if (remoteMessage) {
+        navigate(remoteMessage.data)
+      }
+    });
+    return () => unsubscribes
+  }, [])
+
+  useEffect(() => {
+    //for Quit state Notification
+    const unsb = messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          if (__DEV__) {
+            console.log('Notification caused app to open from quit state:', remoteMessage);
+          }
+          navigate(remoteMessage.data)
+        }
+      });
+    return () => unsb
+  }, []);
+
+  useEffect(() => {
+    //for Foreground State Notification
+    const unsbs = notifee.onForegroundEvent(({ type, detail }) => {
+      switch (type) {
+        case EventType.DISMISSED:
+          if (__DEV__) {
+            console.log('User dismissed notification', detail.notification);
+          }
+          break;
+        case EventType.PRESS:
+          if (__DEV__) {
+            console.log('User pressed notification', detail.notification);
+          }
+          let datas = detail.notification.data
+          if (datas) {
+            navigate(datas)
+          }
+          break;
+      }
+    });
+    return () => unsbs
+  }, []);
+
+  useEffect(() => {
+    onGetDeviceToken();
     onGetData();
     // onAppUpdate();
   }, [])
@@ -73,76 +142,76 @@ const App = () => {
   })
 
   const onGetUserProfile = useCallback(async () => {
-    // let accesstoken = await getAccessToken();
-    // if (accesstoken) {
-    //   try {
-    //     let res = await Apis.get_profile();
-    //     if (__DEV__) {
-    //       console.log('UserProfileAppjs', JSON.stringify(res))
-    //     }
-    //     if (res.success) {
-    //       setState(prev => ({
-    //         ...prev,
-    //         userProfile: res?.data,
-    //         userType: res?.data?.type
-    //       }))
-    //     }
-    //   } catch (error) {
-    //     if (__DEV__) {
-    //       console.log(error)
-    //     }
-    //     ToastError();
-    //   }
-    // }
+    let accesstoken = await getAccessToken();
+    if (accesstoken) {
+      try {
+        let res = await Apis.get_profile();
+        if (__DEV__) {
+          console.log('UserProfileAppjs', JSON.stringify(res))
+        }
+        if (res.success) {
+          setState(prev => ({
+            ...prev,
+            userProfile: res?.data,
+            userType: res?.data?.type
+          }))
+        }
+      } catch (error) {
+        if (__DEV__) {
+          console.log(error)
+        }
+        ToastError();
+      }
+    }
   })
 
   const onGetStoreData = async () => {
-    // try {
-    //   let userdata = await getUserData();
-    //   let accesstoken = await getAccessToken();
-    //   if (__DEV__) {
-    //     console.log('UserData', userdata);
-    //     console.log('token', accesstoken)
-    //   }
-    //   if (userdata && accesstoken) {
-    //     setState(prevState => ({
-    //       ...prevState,
-    //       userdata: userdata,
-    //       accesstoken: accesstoken,
-    //       userType: userdata?.type,
-    //       isLogin: true
-    //     }))
-    //     onGetUserProfile();
-    //   } else {
-    //     setState(prevState => ({
-    //       ...prevState,
-    //       userdata: null,
-    //       accesstoken: null,
-    //       isLogin: false
-    //     }))
-    //   }
-    // } catch (error) {
-    //   if (__DEV__) {
-    //     console.log('dataError', error)
-    //   }
-    // }
+    try {
+      let userdata = await getUserData();
+      let accesstoken = await getAccessToken();
+      if (__DEV__) {
+        console.log('UserData', userdata);
+        console.log('token', accesstoken)
+      }
+      if (userdata && accesstoken) {
+        setState(prevState => ({
+          ...prevState,
+          userData: userdata,
+          accesstoken: accesstoken,
+          userType: userdata?.type,
+          isLogin: true
+        }))
+        onGetUserProfile();
+      } else {
+        setState(prevState => ({
+          ...prevState,
+          userData: null,
+          accesstoken: null,
+          isLogin: false
+        }))
+      }
+    } catch (error) {
+      if (__DEV__) {
+        console.log('dataError', error)
+      }
+    }
   }
 
   const onClearStoreData = async () => {
-    // try {
-    //   setState(prevState => ({
-    //     ...prevState,
-    //     isLogin: false,
-    //     userdata: null,
-    //     accesstoken: null,
-    //     userProfile: null
-    //   }))
-    //   await clearUserData();
-    // } catch (error) {
-    //   if (__DEV__) {
-    //     console.log('dataError', error)
-    //   }
-    // }
+    try {
+      setState(prevState => ({
+        ...prevState,
+        isLogin: false,
+        userData: null,
+        accesstoken: null,
+        userProfile: null
+      }))
+      await clearUserData();
+    } catch (error) {
+      if (__DEV__) {
+        console.log('dataError', error)
+      }
+    }
   }
 
   return (
@@ -150,7 +219,13 @@ const App = () => {
       <NavigationContainer ref={navigationRef}>
         <StatusBar backgroundColor={'green'} barStyle={'light-content'} />
         {(!state.loading) && (
-          <AuthMainStack />
+          <>
+            {(state.isLogin) ?
+              <DrawerStack />
+              :
+              <AuthMainStack />
+            }
+          </>
         )}
       </NavigationContainer>
     </AuthContext.Provider>
