@@ -6,6 +6,11 @@ import EditProfile from '../../Screen/MainScreen/EditProfile';
 import ChangePassword from '../../Screen/MainScreen/ChangePassword';
 import StaticPage from '../../Screen/CommonScreen/StaticPage';
 import PdfViewer from '../../Screen/CommonScreen/PdfViewer';
+import PendingRequest from '../../Screen/MainScreen/PendingRequest';
+import AcceptRequest from '../../Screen/MainScreen/AcceptRequest';
+import RejectRequest from '../../Screen/MainScreen/RejectRequest';
+import CompleteRequest from '../../Screen/MainScreen/CompleteRequest';
+import RequestDetails from '../../Screen/MainScreen/RequestDetails';
 
 const MainStack = () => {
 
@@ -22,6 +27,11 @@ const MainStack = () => {
             <Stack.Screen name='ChangePassword' component={ChangePassword} />
             <Stack.Screen name='StaticPage' component={StaticPage} />
             <Stack.Screen name='PdfViewer' component={PdfViewer} />
+            <Stack.Screen name='PendingRequest' component={PendingRequest} />
+            <Stack.Screen name='AcceptRequest' component={AcceptRequest} />
+            <Stack.Screen name='RejectRequest' component={RejectRequest} />
+            <Stack.Screen name='CompleteRequest' component={CompleteRequest} />
+            <Stack.Screen name='RequestDetails' component={RequestDetails} />
         </Stack.Navigator>
     )
 }

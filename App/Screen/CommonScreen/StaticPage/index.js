@@ -74,7 +74,7 @@ const StaticPage = ({ navigation, route }) => {
 
     const onHeaderPress = useCallback(async () => {
         if (isLogin) {
-            navigation.navigate('PlantDashBoard');
+            navigation.navigate('DashBoard');
         } else {
             navigation.goBack();
         }

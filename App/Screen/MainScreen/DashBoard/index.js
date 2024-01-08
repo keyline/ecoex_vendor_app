@@ -40,9 +40,9 @@ const DashBoard = ({ navigation }) => {
   const onGetData = useCallback(async () => {
     try {
       showLoading();
-      let response = await Apis.plant_dashboard();
+      let response = await Apis.vendor_dashboard();
       if (__DEV__) {
-        console.log('Dashboard', JSON.stringify(response))
+        console.log('VendorDashboard', JSON.stringify(response))
       }
       if (response.success) {
         setState(prev => ({
@@ -100,7 +100,7 @@ const DashBoard = ({ navigation }) => {
               <View style={[styles.profileContainer, { width: '100%' }]}>
                 <Image source={ImagePath.dp} style={styles.dp} />
                 <View style={[styles.profileInfo, { width: '80%' }]}>
-                  <NameValue name={'Vendor Id'} value={state.data?.plant_id} />
+                  <NameValue name={'Vendor Id'} value={state.data?.vendor_id} />
                   <NameValue name={'Vendor Name'} value={state.data?.company_name} />
                   <NameValue name={'GST No'} value={state.data?.gst_no} />
                   <NameValue name={'Email ID'} value={state.data?.email} />
@@ -111,10 +111,10 @@ const DashBoard = ({ navigation }) => {
               <View style={styles.btnContent}>
                 <Text style={styles.headingText}>Request Status Wise Count</Text>
                 <View style={styles.btnContainer}>
-                  <BottonNew onPress={(() => onBtnPress('AddRequest'))} name={'Add New Request'} color={'#264CD4'} />
-                  <BottonNew onPress={(() => onBtnPress('ProcessRequest'))} name={state.data?.step2_label + ' (' + state.data?.step2_count + ')'} color={'#E79D0CE8'} />
-                  <BottonNew onPress={(() => onBtnPress('RejectRequest'))} name={state.data?.step3_label + ' (' + state.data?.step3_count + ')'} color={'#E70C0CC9'} />
-                  <BottonNew onPress={(() => onBtnPress('CompleteRequest'))} name={state.data?.step4_label + ' (' + state.data?.step4_count + ')'} color={'#2DA952'} />
+                  <BottonNew onPress={(() => onBtnPress('PendingRequest'))} name={state.data?.pending_enquiry + ' (' + state.data?.pending_count + ')'} color={'#264CD4'} />
+                  <BottonNew onPress={(() => onBtnPress('AcceptRequest'))} name={state.data?.accepted_enquiry + ' (' + state.data?.accepted_count + ')'} color={'#E79D0CE8'} />
+                  <BottonNew onPress={(() => onBtnPress('RejectRequest'))} name={state.data?.rejected_enquiry + ' (' + state.data?.rejected_count + ')'} color={'#E70C0CC9'} />
+                  <BottonNew onPress={(() => onBtnPress('CompleteRequest'))} name={state.data?.completed_enquiry + ' (' + state.data?.completed_count + ')'} color={'#2DA952'} />
                 </View>
 
               </View>

@@ -83,7 +83,31 @@ export default class Apis {
         return Network('post', 'update-profile', data)
     }
 
-    static plant_dashboard = () => {
-        return Network('post', 'dashboard')
+    static vendor_dashboard = () => {
+        return Network('post', 'vendor-dashboard')
+    }
+
+    static pending_request = (data) => {
+        return Network('post', 'pending-quotation-request-list', data)
+    }
+
+    static accept_request = (data) => {
+        return Network('post', 'accepted-quotation-request-list', data)
+    }
+
+    static reject_request = (data) => {
+        return Network('post', 'rejected-quotation-request-list', data)
+    }
+
+    static complete_request = (data) => {
+        return Network('post', 'completed-quotation-request-list', data)
+    }
+
+    static accept_reject_request = (data) => {
+        return Network('post', 'pending-quotation-request-accept-reject', data)
+    }
+
+    static request_detais = (data) => {
+        return Network('post', 'get-enquiry-request-for-vendor-quotation', data)
     }
 }

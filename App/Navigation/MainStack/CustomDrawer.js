@@ -17,12 +17,16 @@ const CustomDrawer = (props) => {
 
     const menuList = [
         { id: 1, name: 'Home', screen: 'DashBoard', icon: ImagePath.home, logiReq: false },
-        { id: 2, name: 'Edit Profile', screen: 'EditProfile', icon: ImagePath.edit_profile, logiReq: false },
-        { id: 3, name: 'Change Password', screen: 'ChangePassword', icon: ImagePath.lock, logiReq: false },
-        { id: 9, name: 'Privacy Policy', screen: 'StaticPage', slung: 'privacy-policy', icon: ImagePath.privacy_policy, logiReq: false },
-        { id: 10, name: 'Terms and Conditions', screen: 'StaticPage', slung: 'terms-conditions', icon: ImagePath.terms_condition, logiReq: false },
-        { id: 11, name: 'Sign Out', screen: 'LogOut', icon: ImagePath.logout, logiReq: false },
-        { id: 12, name: 'Delete Account', screen: 'Delete_account', icon: ImagePath.delete_acnt, logiReq: false },
+        { id: 2, name: 'Pending Request', screen: 'PendingRequest', icon: ImagePath.pending, logiReq: false },
+        { id: 3, name: 'Accepted Request', screen: 'AcceptRequest', icon: ImagePath.complete, logiReq: false },
+        { id: 4, name: 'Rejected Request', screen: 'RejectRequest', icon: ImagePath.reject, logiReq: false },
+        { id: 5, name: 'Completed Request', screen: 'CompleteRequest', icon: ImagePath.complete, logiReq: false },
+        { id: 6, name: 'Edit Profile', screen: 'EditProfile', icon: ImagePath.edit_profile, logiReq: false },
+        { id: 7, name: 'Change Password', screen: 'ChangePassword', icon: ImagePath.lock, logiReq: false },
+        { id: 8, name: 'Privacy Policy', screen: 'StaticPage', slung: 'privacy-policy', icon: ImagePath.privacy_policy, logiReq: false },
+        { id: 9, name: 'Terms and Conditions', screen: 'StaticPage', slung: 'terms-conditions', icon: ImagePath.terms_condition, logiReq: false },
+        { id: 10, name: 'Sign Out', screen: 'LogOut', icon: ImagePath.logout, logiReq: false },
+        { id: 11, name: 'Delete Account', screen: 'Delete_account', icon: ImagePath.delete_acnt, logiReq: false },
 
     ]
 

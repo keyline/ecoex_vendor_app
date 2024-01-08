@@ -672,6 +672,7 @@ const EditProfile = ({ navigation }) => {
                             value={state.gstNo}
                             onChangeText={onChangeGstNo}
                             error={state.gstNoErr}
+                            editable={false}
                             maxLength={15}
                         />
                         <InputField
