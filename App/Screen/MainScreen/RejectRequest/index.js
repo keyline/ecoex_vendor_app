@@ -14,7 +14,7 @@ import EmptyContent from '../../../Container/EmptyContent';
 import LoaderTransparent from '../../../Container/LoaderTransparent';
 import SortModal from '../../../Container/SortModal';
 
-const RejectRequest = ({navigation}) => {
+const RejectRequest = ({ navigation }) => {
 
     const [state, setState] = useState({
         loading: false,
@@ -126,7 +126,7 @@ const RejectRequest = ({navigation}) => {
             for (const key in item) {
                 // Check if the key is a string and if the value includes the search query
                 if (
-                    typeof item[key] === 'string' &&
+                    typeof item[key] == 'string' &&
                     item[key].toLowerCase().includes(query.toLowerCase())
                 ) {
                     return true;
@@ -191,8 +191,7 @@ const RejectRequest = ({navigation}) => {
     });
 
     const onViewDetails = useCallback(async (item) => {
-        // console.log('editItem', item)
-        // navigation.navigate('ProcessesRequestDetails', { id: item?.enq_id })
+        navigation.navigate('RequestDetails', { id: item?.enq_id })
     })
 
     const onReload = useCallback(async () => {
@@ -208,65 +207,65 @@ const RejectRequest = ({navigation}) => {
 
     return (
         <SafeAreaView style={CommonStyle.container}>
-        <Header
-            name={'Rejected Request'}
-            leftIcon={ImagePath.home}
-            leftOnPress={onHeaderPress}
-        />
-        {(state.loading) ? <Loader loading={state.loading} /> :
-            <View style={{ flex: 1 }}>
-                <View style={styles.header}>
-                    <View style={styles.searchContainer}>
-                        <TextInput
-                            placeholder='Search..'
-                            value={state.searchtext}
-                            onChangeText={text => onSearch(text)}
-                            style={styles.searchInput}
-                            placeholderTextColor={Colors.grey}
-                            textAlignVertical='center'
-                        />
-                        <Image source={ImagePath.search} style={styles.searchIcon} />
-                    </View>
-                    <TouchableOpacity onPress={onShowModal} activeOpacity={0.5} style={styles.sortContainer}>
-                        <Image source={ImagePath.sort} style={styles.sortIcon} />
-                    </TouchableOpacity>
-                </View>
-
+            <Header
+                name={'Rejected Request'}
+                leftIcon={ImagePath.home}
+                leftOnPress={onHeaderPress}
+            />
+            {(state.loading) ? <Loader loading={state.loading} /> :
                 <View style={{ flex: 1 }}>
-                    <FlatList
-                        // data={state.searchtext ? state.data.filter(obj => { return obj.enquiry_no.toUpperCase().includes(state.searchtext.toUpperCase()) }) : state.data}
-                        data={state.searchtext ? state.filterData : state.data}
-                        keyExtractor={(item, index) => index}
-                        renderItem={({ item, index }) =>
-                            <RequestList
-                                item={item}
-                                index={index}
-                                headingColor={Colors.reject}
-                                backgroundColor={Colors.reject_morelight}
-                                // onAccept={onAcceptReject}
-                                // onReject={onRejectAlert}
-                                // onViewDetails={onViewDetails}
-                            />}
-                        style={{ marginBottom: 10 }}
-                        showsVerticalScrollIndicator={false}
-                        onEndReached={handleLoadMore}
-                        onEndReachedThreshold={0.5}
-                        refreshControl={<RefreshControl refreshing={false} onRefresh={onReload} />}
-                        ListEmptyComponent={<EmptyContent word={'No Request Found'} />}
-                    // StickyHeaderComponent={renderHeader}
-                    />
+                    <View style={styles.header}>
+                        <View style={styles.searchContainer}>
+                            <TextInput
+                                placeholder='Search..'
+                                value={state.searchtext}
+                                onChangeText={text => onSearch(text)}
+                                style={styles.searchInput}
+                                placeholderTextColor={Colors.grey}
+                                textAlignVertical='center'
+                            />
+                            <Image source={ImagePath.search} style={styles.searchIcon} />
+                        </View>
+                        <TouchableOpacity onPress={onShowModal} activeOpacity={0.5} style={styles.sortContainer}>
+                            <Image source={ImagePath.sort} style={styles.sortIcon} />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={{ flex: 1 }}>
+                        <FlatList
+                            // data={state.searchtext ? state.data.filter(obj => { return obj.enquiry_no.toUpperCase().includes(state.searchtext.toUpperCase()) }) : state.data}
+                            data={state.searchtext ? state.filterData : state.data}
+                            keyExtractor={(item, index) => index}
+                            renderItem={({ item, index }) =>
+                                <RequestList
+                                    item={item}
+                                    index={index}
+                                    headingColor={Colors.reject}
+                                    backgroundColor={Colors.reject_morelight}
+                                    // onAccept={onAcceptReject}
+                                    // onReject={onRejectAlert}
+                                    onViewDetails={onViewDetails}
+                                />}
+                            style={{ marginBottom: 10 }}
+                            showsVerticalScrollIndicator={false}
+                            onEndReached={handleLoadMore}
+                            onEndReachedThreshold={0.5}
+                            refreshControl={<RefreshControl refreshing={false} onRefresh={onReload} />}
+                            ListEmptyComponent={<EmptyContent word={'No Request Found'} />}
+                        // StickyHeaderComponent={renderHeader}
+                        />
+                    </View>
                 </View>
-            </View>
-        }
-        {(state.loadingNew) && (
-            <LoaderTransparent loading={state.loadingNew} />
-        )}
-        <SortModal
-            modalVisible={state.modalVisible}
-            onHideModal={onHideModal}
-            onSortItemSelect={onSortItemSelect}
-        />
-    </SafeAreaView>
+            }
+            {(state.loadingNew) && (
+                <LoaderTransparent loading={state.loadingNew} />
+            )}
+            <SortModal
+                modalVisible={state.modalVisible}
+                onHideModal={onHideModal}
+                onSortItemSelect={onSortItemSelect}
+            />
+        </SafeAreaView>
     )
 }
 

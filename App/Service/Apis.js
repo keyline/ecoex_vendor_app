@@ -83,6 +83,10 @@ export default class Apis {
         return Network('post', 'update-profile', data)
     }
 
+    static update_profile_image = (data) => {
+        return Network('post', 'update-profile-image', data)
+    }
+
     static vendor_dashboard = () => {
         return Network('post', 'vendor-dashboard')
     }
@@ -109,5 +113,9 @@ export default class Apis {
 
     static request_detais = (data) => {
         return Network('post', 'get-enquiry-request-for-vendor-quotation', data)
+    }
+
+    static submit_quotation = (data) => {
+        return Network('post', 'submit-quotation', data)
     }
 }

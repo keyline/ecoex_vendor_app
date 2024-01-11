@@ -43,5 +43,6 @@ export const ImagePath = {
     delete_acnt: require('../Assets/Images/delete_acnt.png'),
     terms_condition:require('../Assets/Images/terms_condition.png'),
     privacy_policy:require('../Assets/Images/privacy_policy.png'),
-    accept:require('../Assets/Images/accept.png')
+    accept:require('../Assets/Images/accept.png'),
+    edit_image:require('../Assets/Images/edit_image.png')
 }

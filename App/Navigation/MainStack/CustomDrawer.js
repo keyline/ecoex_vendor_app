@@ -1,19 +1,26 @@
-import { View, Text, Image, Alert } from 'react-native'
-import React, { useCallback, useContext } from 'react'
+import { View, Text, Image, Alert, TouchableOpacity } from 'react-native'
+import React, { useCallback, useContext, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { ImagePath } from '../../Utils/ImagePath';
-import { ToastError, ToastMessage } from '../../Service/CommonFunction';
+import { LaunchCamera, LaunchImageLibary, ToastError, ToastMessage } from '../../Service/CommonFunction';
 import Apis from '../../Service/Apis';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { Colors } from '../../Utils/Colors';
 import { styles } from './styles';
 import AuthContext from '../../Service/Context';
+import ImageOptions from '../../Container/ImageOptions';
+import LoaderTransparent from '../../Container/LoaderTransparent';
 
 const CustomDrawer = (props) => {
 
     const context = useContext(AuthContext);
     const { siteData, userProfile } = context.allData
     const navigation = useNavigation();
+    const [state, setState] = useState({
+        loadingNew: false,
+        pickerModal: false,
+        profileImg: ''
+    })
 
     const menuList = [
         { id: 1, name: 'Home', screen: 'DashBoard', icon: ImagePath.home, logiReq: false },
@@ -122,10 +129,104 @@ const CustomDrawer = (props) => {
         }
     })
 
+    const showLoading = useCallback(async () => {
+        setState(prev => ({
+            ...prev,
+            loadingNew: true
+        }))
+    })
+
+    const hideLoading = useCallback(async () => {
+        setState(prev => ({
+            ...prev,
+            loadingNew: false
+        }))
+    })
+
+    const onShowPicker = useCallback(async () => {
+        setState(prev => ({
+            ...prev,
+            pickerModal: true
+        }))
+    })
+
+    const onHidePicker = useCallback(async () => {
+        setState(prev => ({
+            ...prev,
+            pickerModal: false
+        }))
+    })
+
+    const onSelectImageOption = useCallback(async (value) => {
+        try {
+            if (value == 1) {
+                let libaryImageRes = await LaunchImageLibary(true, 1);
+                // if (__DEV__) {
+                //     console.log('LibaryImage', libaryImageRes)
+                // }
+                onHidePicker();
+                if (libaryImageRes.assets && libaryImageRes.assets.length > 0) {
+                    onUpdateImage(libaryImageRes.assets[0]);
+                }
+            } else {
+                let cameraImageRes = await LaunchCamera(true);
+                // if (__DEV__) {
+                //     console.log('CameraImage', cameraImageRes)
+                // }
+                onHidePicker();
+                if (cameraImageRes.assets && cameraImageRes.assets.length > 0) {
+                    onUpdateImage(cameraImageRes.assets[0]);
+                }
+            }
+        } catch (error) {
+            if (__DEV__) {
+                console.log(error)
+            }
+            ToastError();
+        }
+    })
+
+    const onUpdateImage = useCallback(async (image) => {
+        try {
+            showLoading();
+            let datas = {
+                profile_image: [image]
+            }
+            let res = await Apis.update_profile_image(datas);
+            if (__DEV__) {
+                console.log('UploadImage', JSON.stringify(res))
+            }
+            if (res.success) {
+                await context.onGetUserProfile();
+            }
+            hideLoading();
+            ToastMessage(res?.message);
+        } catch (error) {
+            if (__DEV__) {
+                console.log(error)
+            }
+            hideLoading();
+            ToastError();
+        }
+    })
+
+    const onViewProfileImg = useCallback(async () => {
+
+    })
+
     return (
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>
                 {/* <DrawerItemList {...props} /> */}
+                <View style={styles.imgContainer}>
+                    <TouchableOpacity onPress={onViewProfileImg} disabled={userProfile?.profile_image ? false : true} activeOpacity={0.5} style={styles.imgContent}>
+                        <Image source={userProfile?.profile_image ? { uri: userProfile?.profile_image } : ImagePath.dp} style={styles.profileImg} />
+                    </TouchableOpacity>
+                    <Text style={styles.nameText}>{userProfile?.company_name}</Text>
+                    <TouchableOpacity onPress={onShowPicker} activeOpacity={0.5} style={styles.editContainer}>
+                        <Image source={ImagePath.edit_image} style={styles.editIcoon} />
+                    </TouchableOpacity>
+                </View>
                 {((userProfile?.is_contract_expire == 0) ? menuList.filter(obj => obj.logiReq == false) : menuList).map((item, key) => (
                     <DrawerItem
                         key={key}
@@ -141,6 +242,14 @@ const CustomDrawer = (props) => {
                     />
                 ))}
             </DrawerContentScrollView>
+            <ImageOptions
+                modalVisible={state.pickerModal}
+                onHideModal={onHidePicker}
+                onSortItemSelect={onSelectImageOption}
+            />
+            {(state.loadingNew) && (
+                <LoaderTransparent loading={state.loadingNew} />
+            )}
         </View>
     )
 }

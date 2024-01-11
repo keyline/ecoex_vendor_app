@@ -10,11 +10,13 @@ import Loader from '../../../Container/Loader'
 import { styles } from './styles'
 import List from './List'
 import Button from '../../../Container/Button'
+import LoaderTransparent from '../../../Container/LoaderTransparent'
 
 const RequestDetails = ({ navigation, route }) => {
 
     const [state, setState] = useState({
         loading: false,
+        loadingNew: false,
         data: '',
         requestList: []
     })
@@ -37,10 +39,16 @@ const RequestDetails = ({ navigation, route }) => {
                 console.log('RequestDetails', JSON.stringify(response))
             }
             if (response.success) {
+                let li = response?.data?.requestList
+                if (li.length > 0) {
+                    var updateli = li.map(obj => {
+                        return { ...obj, qtyErr: '', priceErr: '' }
+                    })
+                }
                 setState(prev => ({
                     ...prev,
                     data: response?.data,
-                    requestList: response?.data?.requestList,
+                    requestList: updateli,
                     loading: false
                 }))
             } else {
@@ -78,7 +86,7 @@ const RequestDetails = ({ navigation, route }) => {
         if (item) {
             let updateArray = state.requestList.map(obj => {
                 if (obj.enq_product_id === item.enq_product_id) {
-                    return { ...obj, quote_price: price }
+                    return { ...obj, quote_price: price, priceErr: '' }
                 }
                 return obj;
             });
@@ -93,7 +101,7 @@ const RequestDetails = ({ navigation, route }) => {
         if (item) {
             let updateArray = state.requestList.map(obj => {
                 if (obj.enq_product_id === item.enq_product_id) {
-                    return { ...obj, qty: qty }
+                    return { ...obj, qty: qty, qtyErr: '' }
                 }
                 return obj;
             });
@@ -116,6 +124,7 @@ const RequestDetails = ({ navigation, route }) => {
         <View>
             <Button
                 name={'Send Quotation'}
+                onPress={onSubmit}
             />
         </View>
     )
@@ -126,6 +135,66 @@ const RequestDetails = ({ navigation, route }) => {
             <Text style={[CommonStyle.normalText, { width: '60%' }]}>{value}</Text>
         </View>
     )
+
+    const onSubmit = useCallback(async () => {
+        let qtyEmptyIndex = state.requestList.findIndex(obj => obj.qty.trim() == '')
+        let priceEmptyIndex = state.requestList.findIndex(obj => obj.quote_price.trim() == '')
+        if (qtyEmptyIndex != -1) {
+            let updatearr = state.requestList.map(obj => {
+                if (obj.qty.trim() == '') {
+                    return { ...obj, qtyErr: 'Enter Quantity' }
+                }
+                return obj
+            })
+            setState(prev => ({
+                ...prev,
+                requestList: updatearr
+            }))
+            return
+        } else if (priceEmptyIndex != -1) {
+            let updatearr = state.requestList.map(obj => {
+                if (obj.quote_price.trim() == '') {
+                    return { ...obj, priceErr: 'Enter Quote Price' }
+                }
+                return obj
+            })
+            setState(prev => ({
+                ...prev,
+                requestList: updatearr
+            }))
+            return
+        } else {
+            try {
+                setState(prev => ({
+                    ...prev,
+                    loadingNew: true
+                }))
+                let datas = {
+                    enq_id: state.data?.enq_id,
+                    requestList: state.requestList
+                }
+                // console.log('Postbody', JSON.stringify(datas))
+                let res = await Apis.submit_quotation(datas);
+                if (__DEV__) {
+                    console.log('SubmitQuotation', JSON.stringify(res))
+                }
+                setState(prev => ({
+                    ...prev,
+                    loadingNew: false
+                }))
+                ToastMessage(res?.message);
+            } catch (error) {
+                if (__DEV__) {
+                    console.log(error)
+                }
+                setState(prev => ({
+                    ...prev,
+                    loadingNew: false
+                }))
+                ToastError();
+            }
+        }
+    })
 
     return (
         <SafeAreaView style={CommonStyle.container}>
@@ -149,16 +218,20 @@ const RequestDetails = ({ navigation, route }) => {
                                     item={item}
                                     onChangePrice={onChangePrice}
                                     onChangeQty={onChangeQty}
+                                    status={state.data?.current_step_no}
+                                    editable={state.data?.current_step_no == 1 ? true : false}
                                 />}
                             showsVerticalScrollIndicator={false}
                             ListHeaderComponent={renderHeader}
-                            ListFooterComponent={renderFooter}
+                            ListFooterComponent={state.data?.current_step_no == 1 ? renderFooter : null}
                             refreshControl={<RefreshControl refreshing={false} onRefresh={onGetData} />}
                         />
                     </View>
                 </View>
             }
-
+            {(state.loadingNew) && (
+                <LoaderTransparent loading={state.loadingNew} />
+            )}
         </SafeAreaView>
     )
 }

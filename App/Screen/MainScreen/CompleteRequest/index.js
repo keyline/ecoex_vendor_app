@@ -126,7 +126,7 @@ const CompleteRequest = ({ navigation }) => {
             for (const key in item) {
                 // Check if the key is a string and if the value includes the search query
                 if (
-                    typeof item[key] === 'string' &&
+                    typeof item[key] == 'string' &&
                     item[key].toLowerCase().includes(query.toLowerCase())
                 ) {
                     return true;
@@ -191,8 +191,7 @@ const CompleteRequest = ({ navigation }) => {
     });
 
     const onViewDetails = useCallback(async (item) => {
-        // console.log('editItem', item)
-        // navigation.navigate('ProcessesRequestDetails', { id: item?.enq_id })
+        navigation.navigate('RequestDetails', { id: item?.enq_id })
     })
 
     const onReload = useCallback(async () => {
@@ -242,9 +241,9 @@ const CompleteRequest = ({ navigation }) => {
                                     index={index}
                                     headingColor={Colors.theme_light}
                                     backgroundColor={Colors.theme_morelight}
-                                // onAccept={onAcceptReject}
-                                // onReject={onRejectAlert}
-                                // onViewDetails={onViewDetails}
+                                    // onAccept={onAcceptReject}
+                                    // onReject={onRejectAlert}
+                                    onViewDetails={onViewDetails}
                                 />}
                             style={{ marginBottom: 10 }}
                             showsVerticalScrollIndicator={false}
