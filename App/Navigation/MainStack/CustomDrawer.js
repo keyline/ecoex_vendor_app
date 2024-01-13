@@ -10,6 +10,7 @@ import { styles } from './styles';
 import AuthContext from '../../Service/Context';
 import ImageOptions from '../../Container/ImageOptions';
 import LoaderTransparent from '../../Container/LoaderTransparent';
+import ImageView from '../../Container/ImageView';
 
 const CustomDrawer = (props) => {
 
@@ -19,7 +20,7 @@ const CustomDrawer = (props) => {
     const [state, setState] = useState({
         loadingNew: false,
         pickerModal: false,
-        profileImg: ''
+        viewImgeUri: ''
     })
 
     const menuList = [
@@ -28,6 +29,7 @@ const CustomDrawer = (props) => {
         { id: 3, name: 'Accepted Request', screen: 'AcceptRequest', icon: ImagePath.complete, logiReq: false },
         { id: 4, name: 'Rejected Request', screen: 'RejectRequest', icon: ImagePath.reject, logiReq: false },
         { id: 5, name: 'Completed Request', screen: 'CompleteRequest', icon: ImagePath.complete, logiReq: false },
+        { id: 6, name: 'Notification', screen: 'Notification', icon: ImagePath.bell, logiReq: false },
         { id: 6, name: 'Edit Profile', screen: 'EditProfile', icon: ImagePath.edit_profile, logiReq: false },
         { id: 7, name: 'Change Password', screen: 'ChangePassword', icon: ImagePath.lock, logiReq: false },
         { id: 8, name: 'Privacy Policy', screen: 'StaticPage', slung: 'privacy-policy', icon: ImagePath.privacy_policy, logiReq: false },
@@ -210,8 +212,18 @@ const CustomDrawer = (props) => {
         }
     })
 
-    const onViewProfileImg = useCallback(async () => {
+    const onViewImage = useCallback(async () => {
+        setState(prev => ({
+            ...prev,
+            viewImgeUri: userProfile?.profile_image
+        }))
+    })
 
+    const onHideImageView = useCallback(async () => {
+        setState(prev => ({
+            ...prev,
+            viewImgeUri: null
+        }))
     })
 
     return (
@@ -219,7 +231,7 @@ const CustomDrawer = (props) => {
             <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>
                 {/* <DrawerItemList {...props} /> */}
                 <View style={styles.imgContainer}>
-                    <TouchableOpacity onPress={onViewProfileImg} disabled={userProfile?.profile_image ? false : true} activeOpacity={0.5} style={styles.imgContent}>
+                    <TouchableOpacity onPress={onViewImage} disabled={userProfile?.profile_image ? false : true} activeOpacity={0.5} style={styles.imgContent}>
                         <Image source={userProfile?.profile_image ? { uri: userProfile?.profile_image } : ImagePath.dp} style={styles.profileImg} />
                     </TouchableOpacity>
                     <Text style={styles.nameText}>{userProfile?.company_name}</Text>
@@ -247,6 +259,12 @@ const CustomDrawer = (props) => {
                 onHideModal={onHidePicker}
                 onSortItemSelect={onSelectImageOption}
             />
+            {(state.viewImgeUri) && (
+                <ImageView
+                    imageUri={state.viewImgeUri}
+                    onClose={onHideImageView}
+                />
+            )}
             {(state.loadingNew) && (
                 <LoaderTransparent loading={state.loadingNew} />
             )}

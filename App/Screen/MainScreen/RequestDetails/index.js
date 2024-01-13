@@ -11,6 +11,7 @@ import { styles } from './styles'
 import List from './List'
 import Button from '../../../Container/Button'
 import LoaderTransparent from '../../../Container/LoaderTransparent'
+import ImageViewSlider from '../../../Container/ImageViewSlider'
 
 const RequestDetails = ({ navigation, route }) => {
 
@@ -18,7 +19,9 @@ const RequestDetails = ({ navigation, route }) => {
         loading: false,
         loadingNew: false,
         data: '',
-        requestList: []
+        requestList: [],
+        status: '',
+        sliderImage: null
     })
 
     useFocusEffect(
@@ -48,6 +51,7 @@ const RequestDetails = ({ navigation, route }) => {
                 setState(prev => ({
                     ...prev,
                     data: response?.data,
+                    status: response?.data?.vendorQuotationAcceptRejectStatus,
                     requestList: updateli,
                     loading: false
                 }))
@@ -196,6 +200,40 @@ const RequestDetails = ({ navigation, route }) => {
         }
     })
 
+    const getStatusName = () => {
+        let val = state.status;
+        if (val == "0") {
+            return "Pending";
+        } else if (val == "1") {
+            return "Accepted";
+        } else if (val == "2") {
+            return "Completed";
+        } else if (val == "3") {
+            return 'Rejected';
+        } else {
+            return ""
+        }
+    }
+
+    const onShowImage = useCallback(async (image) => {
+        if (image && image.length > 0) {
+            let updatearr = image.map(obj => {
+                return { uri: obj?.link }
+            })
+            setState(prev => ({
+                ...prev,
+                sliderImage: updatearr
+            }))
+        }
+    })
+
+    const onCloseSlider = useCallback(async () => {
+        setState(prev => ({
+            ...prev,
+            sliderImage: null
+        }))
+    })
+
     return (
         <SafeAreaView style={CommonStyle.container}>
             <Header
@@ -206,8 +244,9 @@ const RequestDetails = ({ navigation, route }) => {
             {(state.loading) ? <Loader loading={state.loading} /> :
                 <View style={styles.bodyContainer}>
                     <View style={styles.statusContainer}>
-                        <Text style={styles.statusText}>STATUS ({state.data?.current_step_no + '/' + state.data?.total_step}) :</Text>
-                        <Text style={styles.statusTextHighlight}>{state.data?.current_step_name}</Text>
+                        {/* <Text style={styles.statusText}>STATUS ({state.data?.current_step_no + '/' + state.data?.total_step}) :</Text> */}
+                        <Text style={styles.statusText}>STATUS :</Text>
+                        <Text style={[styles.statusTextHighlight, state.status == "3" && { backgroundColor: 'red' }, state.status == "2" && { backgroundColor: 'green' }]}>{getStatusName()}</Text>
                     </View>
                     <View style={{ marginTop: '2%', flex: 1 }}>
                         <FlatList
@@ -218,17 +257,24 @@ const RequestDetails = ({ navigation, route }) => {
                                     item={item}
                                     onChangePrice={onChangePrice}
                                     onChangeQty={onChangeQty}
-                                    status={state.data?.current_step_no}
-                                    editable={state.data?.current_step_no == 1 ? true : false}
+                                    status={state.status}
+                                    editable={state.status == "1" ? true : false}
+                                    onShowImage={onShowImage}
                                 />}
                             showsVerticalScrollIndicator={false}
                             ListHeaderComponent={renderHeader}
-                            ListFooterComponent={state.data?.current_step_no == 1 ? renderFooter : null}
+                            ListFooterComponent={state.status == "1" ? renderFooter : null}
                             refreshControl={<RefreshControl refreshing={false} onRefresh={onGetData} />}
                         />
                     </View>
                 </View>
             }
+            {(state.sliderImage) && (
+                <ImageViewSlider
+                    images={state.sliderImage}
+                    onClose={onCloseSlider}
+                />
+            )}
             {(state.loadingNew) && (
                 <LoaderTransparent loading={state.loadingNew} />
             )}

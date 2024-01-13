@@ -118,4 +118,8 @@ export default class Apis {
     static submit_quotation = (data) => {
         return Network('post', 'submit-quotation', data)
     }
+
+    static get_notification = (data) => {
+        return Network('post', 'get-notifications', data)
+    }
 }

@@ -11,6 +11,7 @@ import AcceptRequest from '../../Screen/MainScreen/AcceptRequest';
 import RejectRequest from '../../Screen/MainScreen/RejectRequest';
 import CompleteRequest from '../../Screen/MainScreen/CompleteRequest';
 import RequestDetails from '../../Screen/MainScreen/RequestDetails';
+import Notification from '../../Screen/MainScreen/Notification';
 
 const MainStack = () => {
 
@@ -32,6 +33,7 @@ const MainStack = () => {
             <Stack.Screen name='RejectRequest' component={RejectRequest} />
             <Stack.Screen name='CompleteRequest' component={CompleteRequest} />
             <Stack.Screen name='RequestDetails' component={RequestDetails} />
+            <Stack.Screen name='Notification' component={Notification} />
         </Stack.Navigator>
     )
 }

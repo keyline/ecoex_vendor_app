@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     bodyContainer: {
         marginHorizontal: '2%',
         marginVertical: '2%',
-        flex:1
+        flex: 1
     },
     statusContainer: {
         flexDirection: 'row',
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom:'2%'
+        marginBottom: '2%'
     },
     priceInput: {
         fontFamily: Font_Family.NunitoSans_Regular,
@@ -48,5 +48,18 @@ export const styles = StyleSheet.create({
         height: 38,
         borderColor: Colors.grey,
         paddingHorizontal: 10,
+    },
+    imgBtn: {
+        alignSelf: 'center',
+        backgroundColor: Colors.theme_color,
+        paddingHorizontal: '2%',
+        paddingVertical: '1%',
+        borderRadius: 5,
+        marginBottom: '1%',
+        marginTop: '2%'
+    },
+    imgBtnText: {
+        color: Colors.white,
+        fontFamily: Font_Family.NunitoSans_Regular
     }
 })

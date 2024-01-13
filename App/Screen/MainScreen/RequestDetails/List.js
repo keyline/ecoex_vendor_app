@@ -1,26 +1,26 @@
-import { View, Text, TextInput } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import React, { memo } from 'react'
 import { CommonStyle } from '../../../Utils/CommonStyle'
 import { styles } from './styles'
 import { Colors } from '../../../Utils/Colors'
+import { Font_Family } from '../../../Utils/Fonts'
 
-const List = ({ item, onChangePrice, onChangeQty, status, editable }) => {
-
-    const NameValue = ({ name, value }) => (
+const List = ({ item, onChangePrice, onChangeQty, status, editable, onShowImage }) => {
+    const NameValue = ({ name, value, bold }) => (
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2%' }}>
             <Text style={[CommonStyle.boldblacktext, { width: '35%' }]}>{name} :  </Text>
-            <Text style={[CommonStyle.normalText, { width: '60%' }]}>{value}</Text>
+            <Text style={[CommonStyle.normalText, { width: '60%' }, bold && { fontFamily: Font_Family.NunitoSans_Bold }]}>{value}</Text>
         </View>
     )
 
     return (
         <View style={styles.listContainer}>
-            <NameValue name={'Product Name'} value={item?.product_name} />
+            <NameValue name={'Product Name'} value={item?.product_name} bold={true} />
             <NameValue name={'HSN Code'} value={item?.hsn} />
-            {(status == 0) && (
+            {(status == "0" || status == "3") && (
                 <NameValue name={'Unit'} value={item?.unit_name} />
             )}
-            {(status != 0) && (
+            {(status == "1" || status == "2") && (
                 <>
                     <View style={[styles.priceContainer, item?.qtyErr && { marginBottom: 0 }]}>
                         <Text style={[CommonStyle.boldblacktext, { width: '35%' }]}>Quantity :</Text>
@@ -60,6 +60,11 @@ const List = ({ item, onChangePrice, onChangeQty, status, editable }) => {
                         </View>
                     )}
                 </>
+            )}
+            {(item.product_image && item.product_image.length > 0) && (
+                <TouchableOpacity onPress={() => onShowImage(item?.product_image)} activeOpacity={0.5} style={styles.imgBtn}>
+                    <Text style={styles.imgBtnText}>View Product Image</Text>
+                </TouchableOpacity>
             )}
         </View>
     )

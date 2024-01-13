@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image } from 'react-native'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { CommonStyle } from '../../../Utils/CommonStyle'
 import Header from '../../../Container/Header'
 import { ImagePath } from '../../../Utils/ImagePath'
@@ -8,8 +8,12 @@ import Apis from '../../../Service/Apis'
 import { ToastError, ToastMessage } from '../../../Service/CommonFunction'
 import { styles } from './styles'
 import Loader from '../../../Container/Loader'
+import AuthContext from '../../../Service/Context'
 
 const DashBoard = ({ navigation }) => {
+
+  const context = useContext(AuthContext);
+  const { siteData, userProfile } = context.allData
 
   const [state, setState] = useState({
     loading: false,
@@ -98,7 +102,7 @@ const DashBoard = ({ navigation }) => {
           {(state.data) && (
             <View style={styles.bodyContent}>
               <View style={[styles.profileContainer, { width: '100%' }]}>
-                <Image source={ImagePath.dp} style={styles.dp} />
+                <Image source={userProfile?.profile_image ? { uri: userProfile?.profile_image } : ImagePath.dp} style={styles.dp} />
                 <View style={[styles.profileInfo, { width: '80%' }]}>
                   <NameValue name={'Vendor Id'} value={state.data?.vendor_id} />
                   <NameValue name={'Vendor Name'} value={state.data?.company_name} />
