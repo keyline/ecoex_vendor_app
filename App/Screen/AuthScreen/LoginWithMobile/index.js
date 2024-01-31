@@ -103,8 +103,10 @@ const LoginWithMobile = ({ navigation }) => {
                     <InputField
                         name={'Mobile'}
                         value={state.mobile}
+                        placeholder={'Enter 10 digits mobile number'}
                         onChangeText={onChangeMobile}
                         maxLength={10}
+                        keyboardType={'phone-pad'}
                         error={state.mobileErr}
                     />
                     <View style={{ marginTop: '8%' }}>

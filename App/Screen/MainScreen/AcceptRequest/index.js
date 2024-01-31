@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, FlatList, RefreshControl } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { CommonStyle } from '../../../Utils/CommonStyle'
 import { ImagePath } from '../../../Utils/ImagePath'
 import Header from '../../../Container/Header'
@@ -13,6 +13,7 @@ import { Colors } from '../../../Utils/Colors'
 import EmptyContent from '../../../Container/EmptyContent'
 import LoaderTransparent from '../../../Container/LoaderTransparent'
 import SortModal from '../../../Container/SortModal'
+import { useSharedValue } from 'react-native-reanimated'
 
 const AcceptRequest = ({ navigation }) => {
 
@@ -205,6 +206,17 @@ const AcceptRequest = ({ navigation }) => {
         onResetSearch();
     })
 
+    const viewableItems = useSharedValue([]);
+    const onViewableItemsChanged = useCallback(({ viewableItems: vItems }) => {
+        viewableItems.value = vItems
+    });
+
+    const viewabilityConfig = {
+        // waitForInteraction: true,
+        itemVisiblePercentThreshold: 40
+    }
+    const viewabilityConfigCallbackPairs = useRef([{ viewabilityConfig, onViewableItemsChanged }])
+
     return (
         <SafeAreaView style={CommonStyle.container}>
             <Header
@@ -235,7 +247,8 @@ const AcceptRequest = ({ navigation }) => {
                         <FlatList
                             // data={state.searchtext ? state.data.filter(obj => { return obj.enquiry_no.toUpperCase().includes(state.searchtext.toUpperCase()) }) : state.data}
                             data={state.searchtext ? state.filterData : state.data}
-                            keyExtractor={(item, index) => index}
+                            keyExtractor={(item, index) => item.enq_id.toString()}
+                            viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
                             renderItem={({ item, index }) =>
                                 <RequestList
                                     item={item}
@@ -245,6 +258,7 @@ const AcceptRequest = ({ navigation }) => {
                                     // onAccept={onAcceptReject}
                                     // onReject={onRejectAlert}
                                     onViewDetails={onViewDetails}
+                                    viewableItems={viewableItems}
                                 />}
                             style={{ marginBottom: 10 }}
                             showsVerticalScrollIndicator={false}

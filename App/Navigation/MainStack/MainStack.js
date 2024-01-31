@@ -12,6 +12,8 @@ import RejectRequest from '../../Screen/MainScreen/RejectRequest';
 import CompleteRequest from '../../Screen/MainScreen/CompleteRequest';
 import RequestDetails from '../../Screen/MainScreen/RequestDetails';
 import Notification from '../../Screen/MainScreen/Notification';
+import LostRequest from '../../Screen/MainScreen/LostRequest';
+import WinRequest from '../../Screen/MainScreen/WinRequest';
 
 const MainStack = () => {
 
@@ -34,6 +36,8 @@ const MainStack = () => {
             <Stack.Screen name='CompleteRequest' component={CompleteRequest} />
             <Stack.Screen name='RequestDetails' component={RequestDetails} />
             <Stack.Screen name='Notification' component={Notification} />
+            <Stack.Screen name='LostRequest' component={LostRequest} />
+            <Stack.Screen name='WinRequest' component={WinRequest} />
         </Stack.Navigator>
     )
 }

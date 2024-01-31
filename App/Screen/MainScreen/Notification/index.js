@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, TextInput, Image, FlatList, RefreshControl } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { CommonStyle } from '../../../Utils/CommonStyle'
 import Header from '../../../Container/Header'
 import { ImagePath } from '../../../Utils/ImagePath'
@@ -10,6 +10,7 @@ import List from './List'
 import EmptyContent from '../../../Container/EmptyContent'
 import { Colors } from '../../../Utils/Colors'
 import LoaderTransparent from '../../../Container/LoaderTransparent'
+import { useSharedValue } from 'react-native-reanimated'
 
 const Notification = ({ navigation }) => {
 
@@ -138,6 +139,17 @@ const Notification = ({ navigation }) => {
         setpage(1)
     })
 
+    const viewableItems = useSharedValue([]);
+    const onViewableItemsChanged = useCallback(({ viewableItems: vItems }) => {
+        viewableItems.value = vItems
+    });
+
+    const viewabilityConfig = {
+        // waitForInteraction: true,
+        itemVisiblePercentThreshold: 40
+    }
+    const viewabilityConfigCallbackPairs = useRef([{ viewabilityConfig, onViewableItemsChanged }])
+
     return (
         <SafeAreaView style={CommonStyle.container}>
             <Header
@@ -164,8 +176,9 @@ const Notification = ({ navigation }) => {
                             data={state.filterData.length > 0 ? state.filterData : state.data}
                             // data={list}
                             keyExtractor={(item, index) => index}
+                            viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
                             renderItem={({ item }) =>
-                                <List item={item} />
+                                <List item={item} viewableItems={viewableItems} />
                             }
                             showsVerticalScrollIndicator={false}
                             onEndReached={handleLoadMore}

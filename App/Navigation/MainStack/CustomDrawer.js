@@ -15,7 +15,7 @@ import ImageView from '../../Container/ImageView';
 const CustomDrawer = (props) => {
 
     const context = useContext(AuthContext);
-    const { siteData, userProfile } = context.allData
+    const { siteData, userProfile, appVersion } = context.allData
     const navigation = useNavigation();
     const [state, setState] = useState({
         loadingNew: false,
@@ -29,13 +29,15 @@ const CustomDrawer = (props) => {
         { id: 3, name: 'Accepted Request', screen: 'AcceptRequest', icon: ImagePath.complete, logiReq: false },
         { id: 4, name: 'Rejected Request', screen: 'RejectRequest', icon: ImagePath.reject, logiReq: false },
         { id: 5, name: 'Completed Request', screen: 'CompleteRequest', icon: ImagePath.complete, logiReq: false },
-        { id: 6, name: 'Notification', screen: 'Notification', icon: ImagePath.bell, logiReq: false },
-        { id: 6, name: 'Edit Profile', screen: 'EditProfile', icon: ImagePath.edit_profile, logiReq: false },
-        { id: 7, name: 'Change Password', screen: 'ChangePassword', icon: ImagePath.lock, logiReq: false },
-        { id: 8, name: 'Privacy Policy', screen: 'StaticPage', slung: 'privacy-policy', icon: ImagePath.privacy_policy, logiReq: false },
-        { id: 9, name: 'Terms and Conditions', screen: 'StaticPage', slung: 'terms-conditions', icon: ImagePath.terms_condition, logiReq: false },
-        { id: 10, name: 'Sign Out', screen: 'LogOut', icon: ImagePath.logout, logiReq: false },
-        { id: 11, name: 'Delete Account', screen: 'Delete_account', icon: ImagePath.delete_acnt, logiReq: false },
+        { id: 6, name: 'Lost Request', screen: 'LostRequest', icon: ImagePath.complete, logiReq: false },
+        { id: 7, name: 'Win Request', screen: 'WinRequest', icon: ImagePath.complete, logiReq: false },
+        { id: 8, name: 'Notification', screen: 'Notification', icon: ImagePath.bell, logiReq: false },
+        { id: 9, name: 'Edit Profile', screen: 'EditProfile', icon: ImagePath.edit_profile, logiReq: false },
+        { id: 10, name: 'Change Password', screen: 'ChangePassword', icon: ImagePath.lock, logiReq: false },
+        { id: 11, name: 'Privacy Policy', screen: 'StaticPage', slung: 'privacy-policy', icon: ImagePath.privacy_policy, logiReq: false },
+        { id: 12, name: 'Terms and Conditions', screen: 'StaticPage', slung: 'terms-conditions', icon: ImagePath.terms_condition, logiReq: false },
+        { id: 13, name: 'Sign Out', screen: 'LogOut', icon: ImagePath.logout, logiReq: false },
+        { id: 14, name: 'Delete Account', screen: 'Delete_account', icon: ImagePath.delete_acnt, logiReq: false },
 
     ]
 
@@ -254,6 +256,11 @@ const CustomDrawer = (props) => {
                     />
                 ))}
             </DrawerContentScrollView>
+            {(appVersion) && (
+                <View style={styles.versionContainer}>
+                    <Text style={styles.versionText}>Version {appVersion}</Text>
+                </View>
+            )}
             <ImageOptions
                 modalVisible={state.pickerModal}
                 onHideModal={onHidePicker}

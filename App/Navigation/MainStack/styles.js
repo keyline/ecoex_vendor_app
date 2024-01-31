@@ -47,5 +47,14 @@ export const styles = StyleSheet.create({
         width: 25,
         height: 25,
         // tintColor:Colors.black
+    },
+    versionContainer: {
+        alignSelf: 'center',
+        paddingVertical: '2%'
+    },
+    versionText: {
+        fontFamily: Font_Family.NunitoSans_Regular,
+        fontSize: 12,
+        color: Colors.theme_color
     }
 })
