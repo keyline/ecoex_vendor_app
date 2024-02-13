@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image } from 'react-native'
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image, RefreshControl } from 'react-native'
 import React, { useCallback, useContext, useState } from 'react'
 import { CommonStyle } from '../../../Utils/CommonStyle'
 import Header from '../../../Container/Header'
@@ -98,7 +98,7 @@ const DashBoard = ({ navigation }) => {
         navigation={navigation}
       />
       {(state.loading) ? <Loader loading={state.loading} /> :
-        <ScrollView>
+        <ScrollView refreshControl={<RefreshControl refreshing={false} onRefresh={onGetData} />}>
           {(state.data) && (
             <View style={styles.bodyContent}>
               <View style={[styles.profileContainer, { width: '100%' }]}>

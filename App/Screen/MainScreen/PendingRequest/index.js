@@ -263,7 +263,12 @@ const PendingRequest = ({ navigation }) => {
                     ...prev,
                     data: updateList,
                     loadingNew: false
-                }))
+                }));
+                if (value == '1') {
+                    navigation.navigate('AcceptRequest');
+                } else if (value == "3") {
+                    navigation.navigate('RejectRequest');
+                }
             } else {
                 setState(prev => ({
                     ...prev,

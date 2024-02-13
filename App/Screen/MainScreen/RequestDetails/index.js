@@ -126,10 +126,12 @@ const RequestDetails = ({ navigation, route }) => {
 
     const renderFooter = () => (
         <View>
-            <Button
-                name={'Send Quotation'}
-                onPress={onSubmit}
-            />
+            {(state.data?.is_editable == '1') && (
+                <Button
+                    name={'Send Quotation'}
+                    onPress={onSubmit}
+                />
+            )}
         </View>
     )
 
@@ -182,6 +184,10 @@ const RequestDetails = ({ navigation, route }) => {
                 if (__DEV__) {
                     console.log('SubmitQuotation', JSON.stringify(res))
                 }
+                if (res.success) {
+                    state.data.is_editable = '0'
+                    state.data.is_quotation_submit = '1'
+                }
                 setState(prev => ({
                     ...prev,
                     loadingNew: false
@@ -207,7 +213,7 @@ const RequestDetails = ({ navigation, route }) => {
         } else if (val == "1") {
             return "Accepted";
         } else if (val == "2") {
-            return "Completed";
+            return "Allocated";
         } else if (val == "3") {
             return 'Rejected';
         } else {
@@ -243,10 +249,15 @@ const RequestDetails = ({ navigation, route }) => {
             />
             {(state.loading) ? <Loader loading={state.loading} /> :
                 <View style={styles.bodyContainer}>
-                    <View style={styles.statusContainer}>
-                        {/* <Text style={styles.statusText}>STATUS ({state.data?.current_step_no + '/' + state.data?.total_step}) :</Text> */}
-                        <Text style={styles.statusText}>STATUS :</Text>
-                        <Text style={[styles.statusTextHighlight, state.status == "3" && { backgroundColor: 'red' }, state.status == "2" && { backgroundColor: 'green' }]}>{getStatusName()}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <View style={styles.statusContainer}>
+                            {/* <Text style={styles.statusText}>STATUS ({state.data?.current_step_no + '/' + state.data?.total_step}) :</Text> */}
+                            <Text style={styles.statusText}>STATUS :</Text>
+                            <Text style={[styles.statusTextHighlight, state.status == "3" && { backgroundColor: 'red' }, state.status == "2" && { backgroundColor: 'green' }, state.status == "0" && { backgroundColor: 'orange' }]}>{getStatusName()}</Text>
+                        </View>
+                        {(state.status == '1') && (
+                            <Text style={[styles.statusTextHighlight, state.data?.is_quotation_submit == '1' ? { backgroundColor: 'green' } : { backgroundColor: 'red' }]}>{state.data?.is_quotation_submit == '1' ? 'Quotation Submitted' : 'Quotation Not Submitted'}</Text>
+                        )}
                     </View>
                     <View style={{ marginTop: '2%', flex: 1 }}>
                         <FlatList
@@ -258,7 +269,7 @@ const RequestDetails = ({ navigation, route }) => {
                                     onChangePrice={onChangePrice}
                                     onChangeQty={onChangeQty}
                                     status={state.status}
-                                    editable={state.status == "1" ? true : false}
+                                    editable={state.data?.is_editable == "1" ? true : false}
                                     onShowImage={onShowImage}
                                 />}
                             showsVerticalScrollIndicator={false}
