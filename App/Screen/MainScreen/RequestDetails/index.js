@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList, RefreshControl } from 'react-native'
+import { View, Text, SafeAreaView, FlatList, RefreshControl, TouchableOpacity, Image, Dimensions } from 'react-native'
 import React, { useCallback, useState } from 'react'
 import { CommonStyle } from '../../../Utils/CommonStyle'
 import Header from '../../../Container/Header'
@@ -12,6 +12,10 @@ import List from './List'
 import Button from '../../../Container/Button'
 import LoaderTransparent from '../../../Container/LoaderTransparent'
 import ImageViewSlider from '../../../Container/ImageViewSlider'
+import Popover from 'react-native-popover-view'
+
+const screenWidth = Dimensions.get('window').width;
+
 
 const RequestDetails = ({ navigation, route }) => {
 
@@ -125,8 +129,11 @@ const RequestDetails = ({ navigation, route }) => {
     )
 
     const renderFooter = () => (
-        <View>
-            {(state.data?.is_editable == '1') && (
+        <View style={{paddingVertical:'3%'}}>
+            <TouchableOpacity onPress={() => onShowGpsImage(state.data?.gps_image)} activeOpacity={0.5} style={[styles.imgBtn, { marginTo: '2%', paddingHorizontal: '4.5%' }]}>
+                <Text style={styles.imgBtnText}>View GPS Image</Text>
+            </TouchableOpacity>
+            {(state.status == '1' && state.data?.is_editable == '1') && (
                 <Button
                     name={'Send Quotation'}
                     onPress={onSubmit}
@@ -143,21 +150,22 @@ const RequestDetails = ({ navigation, route }) => {
     )
 
     const onSubmit = useCallback(async () => {
-        let qtyEmptyIndex = state.requestList.findIndex(obj => obj.qty.trim() == '')
+        // let qtyEmptyIndex = state.requestList.findIndex(obj => obj.qty.trim() == '')
         let priceEmptyIndex = state.requestList.findIndex(obj => obj.quote_price.trim() == '')
-        if (qtyEmptyIndex != -1) {
-            let updatearr = state.requestList.map(obj => {
-                if (obj.qty.trim() == '') {
-                    return { ...obj, qtyErr: 'Enter Quantity' }
-                }
-                return obj
-            })
-            setState(prev => ({
-                ...prev,
-                requestList: updatearr
-            }))
-            return
-        } else if (priceEmptyIndex != -1) {
+        // if (qtyEmptyIndex != -1) {
+        //     let updatearr = state.requestList.map(obj => {
+        //         if (obj.qty.trim() == '') {
+        //             return { ...obj, qtyErr: 'Enter Quantity' }
+        //         }
+        //         return obj
+        //     })
+        //     setState(prev => ({
+        //         ...prev,
+        //         requestList: updatearr
+        //     }))
+        //     return
+        // } else 
+        if (priceEmptyIndex != -1) {
             let updatearr = state.requestList.map(obj => {
                 if (obj.quote_price.trim() == '') {
                     return { ...obj, priceErr: 'Enter Quote Price' }
@@ -233,6 +241,18 @@ const RequestDetails = ({ navigation, route }) => {
         }
     })
 
+    const onShowGpsImage = useCallback(async (image) => {
+        if (image) {
+            let array = [];
+            let obj = { uri: image }
+            array.push(obj);
+            setState(prev => ({
+                ...prev,
+                sliderImage: array
+            }))
+        }
+    })
+
     const onCloseSlider = useCallback(async () => {
         setState(prev => ({
             ...prev,
@@ -259,6 +279,29 @@ const RequestDetails = ({ navigation, route }) => {
                             <Text style={[styles.statusTextHighlight, state.data?.is_quotation_submit == '1' ? { backgroundColor: 'green' } : { backgroundColor: 'red' }]}>{state.data?.is_quotation_submit == '1' ? 'Quotation Submitted' : 'Quotation Not Submitted'}</Text>
                         )}
                     </View>
+                    {(state.status != '0' && state.data?.submitted_count > 0) && (
+                        <Popover
+                            from={(
+                                < TouchableOpacity activeOpacity={0.5} style={styles.infoContainer}>
+                                    <Text style={CommonStyle.normalText}>Submited : <Text style={CommonStyle.boldblacktext}>{state.data?.submitted_count} time(s)</Text>  </Text>
+                                    <Image source={ImagePath.info} style={styles.info} />
+                                </TouchableOpacity>
+                            )}
+                        >
+                            <View style={{ width: screenWidth * 0.5, padding: 12 }}>
+                                <Text style={CommonStyle.boldblacktext}>Request Submited on :</Text>
+                                <View >
+                                    {(state.data?.submitted_dates && state.data?.submitted_dates.length > 0) && (
+                                        <>
+                                            {state.data?.submitted_dates.map((item, key) => (
+                                                <Text key={key} style={CommonStyle.normalText}>{item}</Text>
+                                            ))}
+                                        </>
+                                    )}
+                                </View>
+                            </View>
+                        </Popover>
+                    )}
                     <View style={{ marginTop: '2%', flex: 1 }}>
                         <FlatList
                             data={state.requestList}
@@ -273,8 +316,9 @@ const RequestDetails = ({ navigation, route }) => {
                                     onShowImage={onShowImage}
                                 />}
                             showsVerticalScrollIndicator={false}
+                            // style={{ marginBottom: '4%' }}
                             ListHeaderComponent={renderHeader}
-                            ListFooterComponent={state.status == "1" ? renderFooter : null}
+                            ListFooterComponent={renderFooter}
                             refreshControl={<RefreshControl refreshing={false} onRefresh={onGetData} />}
                         />
                     </View>

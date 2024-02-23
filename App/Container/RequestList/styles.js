@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     delete: {
         width: 25,
         height: 25,
-        resizeMode:'contain',
+        resizeMode: 'contain',
         tintColor: 'red'
     },
     editContainer: {
@@ -47,7 +47,18 @@ export const styles = StyleSheet.create({
     edit: {
         width: 25,
         height: 25,
-        resizeMode:'contain',
+        resizeMode: 'contain',
         tintColor: 'green'
+    },
+    infoContainer: {
+        // backgroundColor:'red',
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignSelf: 'flex-end'
+    },
+    info: {
+        width: 15,
+        height: 15,
+        resizeMode: 'contain'
     },
 })

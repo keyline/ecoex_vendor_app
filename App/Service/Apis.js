@@ -99,6 +99,10 @@ export default class Apis {
         return Network('post', 'accepted-quotation-request-list', data)
     }
 
+    static processes_request = (data) => {
+        return Network('post', 'vendor-process-request', data)
+    }
+
     static reject_request = (data) => {
         return Network('post', 'rejected-quotation-request-list', data)
     }
@@ -113,6 +117,10 @@ export default class Apis {
 
     static request_detais = (data) => {
         return Network('post', 'get-enquiry-request-for-vendor-quotation', data)
+    }
+
+    static processes_request_detais = (data) => {
+        return Network('post', 'vendor-process-request-details', data)
     }
 
     static submit_quotation = (data) => {

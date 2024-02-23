@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, TextInput, Image, TouchableOpacity, FlatList, RefreshControl } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
 import Apis from '../../../Service/Apis';
 import { GetUniqueArray, ToastError, ToastMessage } from '../../../Service/CommonFunction';
@@ -13,6 +13,8 @@ import RequestList from '../../../Container/RequestList';
 import EmptyContent from '../../../Container/EmptyContent';
 import LoaderTransparent from '../../../Container/LoaderTransparent';
 import SortModal from '../../../Container/SortModal';
+import List from './List';
+import { useSharedValue } from 'react-native-reanimated';
 
 const WinRequest = ({ navigation }) => {
 
@@ -52,11 +54,12 @@ const WinRequest = ({ navigation }) => {
             let datas = {
                 order_field: field,
                 order_type: type,
-                page_no: pages
+                page_no: pages,
+                sub_status: ['3.3', '4.4', '5.5', '6.6', '8.8', '9.9', '10.10']
             }
-            let response = await Apis.pending_request(datas);
+            let response = await Apis.processes_request(datas);
             if (__DEV__) {
-                console.log('WinRequest', JSON.stringify(response))
+                console.log('ProcessesRequest', JSON.stringify(response))
             }
             if (response.success) {
                 let resdata = response?.data
@@ -191,9 +194,10 @@ const WinRequest = ({ navigation }) => {
     });
 
     const onViewDetails = useCallback(async (item) => {
-        navigation.navigate('RequestDetails', { id: item?.enq_id })
+        // navigation.navigate('RequestDetails', { id: item?.enq_id })
+        navigation.navigate('ProcessesDetails', { id: item?.sub_enquiry_no })
     })
-
+    
     const onReload = useCallback(async () => {
         if (page == 1 && orderField == 'request_id' && orderType == 'DESC') {
             onGetData('request_id', 'DESC', 1)
@@ -205,10 +209,21 @@ const WinRequest = ({ navigation }) => {
         onResetSearch();
     })
 
+    const viewableItems = useSharedValue([]);
+    const onViewableItemsChanged = useCallback(({ viewableItems: vItems }) => {
+        viewableItems.value = vItems
+    });
+
+    const viewabilityConfig = {
+        // waitForInteraction: true,
+        itemVisiblePercentThreshold: 40
+    }
+    const viewabilityConfigCallbackPairs = useRef([{ viewabilityConfig, onViewableItemsChanged }])
+
     return (
         <SafeAreaView style={CommonStyle.container}>
             <Header
-                name={'Win Request'}
+                name={'Processed Enquiry'}
                 leftIcon={ImagePath.home}
                 leftOnPress={onHeaderPress}
             />
@@ -236,15 +251,17 @@ const WinRequest = ({ navigation }) => {
                             // data={state.searchtext ? state.data.filter(obj => { return obj.enquiry_no.toUpperCase().includes(state.searchtext.toUpperCase()) }) : state.data}
                             data={state.searchtext ? state.filterData : state.data}
                             keyExtractor={(item, index) => index}
+                            viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
                             renderItem={({ item, index }) =>
-                                <RequestList
+                                <List
                                     item={item}
                                     index={index}
-                                    headingColor={Colors.process}
+                                    headingColor={Colors.theme_light}
                                     backgroundColor={Colors.process_morelight}
                                     // onAccept={onAcceptAlert}
                                     // onReject={onRejectAlert}
                                     onViewDetails={onViewDetails}
+                                    viewableItems={viewableItems}
                                 />}
                             style={{ marginBottom: 10 }}
                             showsVerticalScrollIndicator={false}

@@ -33,23 +33,6 @@ export const styles = StyleSheet.create({
         marginTop: '2%',
         borderRadius: 5
     },
-    priceContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: '2%'
-    },
-    priceInput: {
-        fontFamily: Font_Family.NunitoSans_Regular,
-        backgroundColor: Colors.white,
-        width: '60%',
-        borderWidth: 0.8,
-        borderRadius: 5,
-        height: 38,
-        borderColor: Colors.grey,
-        paddingHorizontal: 10,
-        color:Colors.black
-    },
     imgBtn: {
         alignSelf: 'center',
         backgroundColor: Colors.theme_color,
@@ -62,18 +45,5 @@ export const styles = StyleSheet.create({
     imgBtnText: {
         color: Colors.white,
         fontFamily: Font_Family.NunitoSans_Regular
-    },
-    infoContainer: {
-        // backgroundColor:'red',
-        flexDirection: 'row',
-        alignItems: 'center',
-        alignSelf: 'flex-end',
-        marginRight:'1%',
-        marginTop:'1%'
-    },
-    info: {
-        width: 15,
-        height: 15,
-        resizeMode: 'contain'
     },
 })

@@ -22,7 +22,7 @@ const List = ({ item, onChangePrice, onChangeQty, status, editable, onShowImage 
             )}
             {(status == "1" || status == "2") && (
                 <>
-                    <View style={[styles.priceContainer, item?.qtyErr && { marginBottom: 0 }]}>
+                    {/* <View style={[styles.priceContainer, item?.qtyErr && { marginBottom: 0 }]}>
                         <Text style={[CommonStyle.boldblacktext, { width: '35%' }]}>Quantity :</Text>
                         <View style={{ width: '60%', flexDirection: 'row', alignItems: 'center' }}>
                             <TextInput
@@ -41,18 +41,21 @@ const List = ({ item, onChangePrice, onChangeQty, status, editable, onShowImage 
                         <View style={{ width: '60%', alignSelf: 'flex-end', marginBottom: '2%' }}>
                             <Text style={CommonStyle.errortxt}>{item?.qtyErr}</Text>
                         </View>
-                    )}
+                    )} */}
                     <View style={[styles.priceContainer, item?.priceErr && { marginBottom: 0 }]}>
-                        <Text style={[CommonStyle.boldblacktext, { width: '35%' }]}>Quote Price :</Text>
-                        <TextInput
-                            value={item?.quote_price}
-                            onChangeText={text => onChangePrice(item, text)}
-                            style={[styles.priceInput, item?.priceErr && { borderColor: 'red', borderWidth: 1 }]}
-                            keyboardType='number-pad'
-                            editable={editable}
-                            textAlignVertical='center'
-                            placeholder='Enter Price'
-                        />
+                        <Text style={[CommonStyle.boldblacktext, { width: '35%' }]}>Unit Price :</Text>
+                        <View style={{ width: '60%', flexDirection: 'row', alignItems: 'center' }}>
+                            <TextInput
+                                value={item?.quote_price}
+                                onChangeText={text => onChangePrice(item, text)}
+                                style={[styles.priceInput, { width: '60%' }, item?.priceErr && { borderColor: 'red', borderWidth: 1 }]}
+                                keyboardType='number-pad'
+                                editable={editable}
+                                textAlignVertical='center'
+                                placeholder='Enter Price'
+                            />
+                            <Text style={CommonStyle.boldblacktext}>  / {item?.unit_name}</Text>
+                        </View>
                     </View>
                     {(item?.priceErr) && (
                         <View style={{ width: '60%', alignSelf: 'flex-end' }}>

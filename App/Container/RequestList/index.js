@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native'
 import React, { memo, useCallback, useContext, useEffect, useState } from 'react'
 import { styles } from './styles'
 import { CommonStyle } from '../../Utils/CommonStyle'
@@ -6,6 +6,9 @@ import { ImagePath } from '../../Utils/ImagePath'
 import { Colors } from '../../Utils/Colors'
 import AuthContext from '../../Service/Context'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
+import Popover from 'react-native-popover-view';
+
+const screenWidth = Dimensions.get('window').width;
 
 const RequestList = ({ item, index, headingColor, backgroundColor, onAccept, onReject, onViewDetails, viewableItems }) => {
 
@@ -34,7 +37,7 @@ const RequestList = ({ item, index, headingColor, backgroundColor, onAccept, onR
                 opacity: withTiming(isVisible ? 1 : 0.4),
                 transform: [
                     {
-                        scale: withTiming(isVisible ? 1 : 0.6),
+                        scale: withTiming(isVisible ? 1 : 0.8),
                     }
                 ]
             }
@@ -73,6 +76,34 @@ const RequestList = ({ item, index, headingColor, backgroundColor, onAccept, onR
                                 <Image source={ImagePath.accept} style={styles.edit} />
                             </TouchableOpacity>
                         </>
+                    )}
+                    {(item?.status != "0" && item?.submitted_count > 0) && (
+                        <Popover
+                            from={(
+                                < TouchableOpacity activeOpacity={0.5} style={styles.infoContainer}>
+                                    <Text style={[CommonStyle.normalText,{fontSize:12}]}>Submited : <Text style={CommonStyle.boldblacktext}>{item?.submitted_count} time(s)</Text>  </Text>
+                                    <Image source={ImagePath.info} style={styles.info} />
+                                </TouchableOpacity>
+                            )}
+                        >
+                            <View style={{ width: screenWidth * 0.5, padding: 12 }}>
+                                <Text style={CommonStyle.boldblacktext}>Request Submited on :</Text>
+                                <View >
+                                    {(item?.submitted_dates && item?.submitted_dates.length > 0) && (
+                                        <>
+                                            {item?.submitted_dates.map((item, key) => (
+                                                <Text key={key} style={CommonStyle.normalText}>{item}</Text>
+                                            ))}
+                                        </>
+                                    )}
+                                </View>
+                            </View>
+                        </Popover>
+                    )}
+                    {(item?.status == 1 && item?.submitted_count < 1) && (
+                        <View style={styles.infoContainer}>
+                            <Text style={[CommonStyle.normalText, { color: Colors.red,fontSize:12 }]}>Quotation Not Submited </Text>
+                        </View>
                     )}
                 </TouchableOpacity>
             )}

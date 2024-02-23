@@ -4,6 +4,7 @@ import RNFetchBlob from 'rn-fetch-blob'
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { CameraPermission, GalleryPermission } from './Permission';
 import { Platform } from 'react-native';
+import moment from 'moment';
 
 
 export const ToastMessage = (message) => {
@@ -12,6 +13,14 @@ export const ToastMessage = (message) => {
 
 export const ToastError = () => {
     Toast.show('Something Went Wrong', Toast.LONG);
+}
+
+export const dateConvertNew = (value) => {
+    if (value) {
+        return moment(new Date(value)).format("DD-MM-YYYY")
+    } else {
+        return null
+    }
 }
 
 export const LaunchImageLibary = async (base64, selectionLimit) => {
@@ -146,3 +155,39 @@ export const getRandomColor = () => {
     }
     return color;
 };
+
+export const getStatusName = (status) => {
+    switch (status) {
+        case '0':
+            return 'Pending';
+        case '1':
+            return 'Accepted';
+        case '2':
+            return 'Allocated';
+        case '3':
+            return 'Rejected';
+        default:
+            return '';
+    }
+}
+
+export const getSubStatus = (status) => {
+    switch (status) {
+        case '3.3':
+            return 'Vendor Assigned';
+        case '4.4':
+            return 'Pickup Scheduled';
+        case '5.5':
+            return 'Vehicle Placed';
+        case '6.6':
+            return 'Material Weighed';
+        case '8.8':
+            return 'Invoice to Vendor';
+        case '9.9':
+            return 'Payment received';
+        case '10.10':
+            return 'Vehicle Dispatched';
+        default:
+            return '';
+    }
+}

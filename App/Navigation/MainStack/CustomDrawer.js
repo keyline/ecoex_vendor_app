@@ -24,13 +24,13 @@ const CustomDrawer = (props) => {
     })
 
     const menuList = [
-        { id: 1, name: 'Home', screen: 'DashBoard', icon: ImagePath.home, logiReq: false },
-        { id: 2, name: 'Pending Request', screen: 'PendingRequest', icon: ImagePath.pending, logiReq: false },
-        { id: 3, name: 'Accepted Request', screen: 'AcceptRequest', icon: ImagePath.complete, logiReq: false },
-        { id: 4, name: 'Rejected Request', screen: 'RejectRequest', icon: ImagePath.reject, logiReq: false },
-        { id: 5, name: 'Completed Request', screen: 'CompleteRequest', icon: ImagePath.complete, logiReq: false },
-        { id: 6, name: 'Lost Request', screen: 'LostRequest', icon: ImagePath.complete, logiReq: false },
-        { id: 7, name: 'Win Request', screen: 'WinRequest', icon: ImagePath.complete, logiReq: false },
+        { id: 1, name: 'Dashboard', screen: 'DashBoard', icon: ImagePath.home, logiReq: false },
+        { id: 2, name: 'Pending', screen: 'PendingRequest', icon: ImagePath.pending, logiReq: false },
+        { id: 3, name: 'Accepted', screen: 'AcceptRequest', icon: ImagePath.complete, logiReq: false },
+        { id: 4, name: 'Processed', screen: 'WinRequest', icon: ImagePath.complete, logiReq: false },
+        { id: 5, name: 'Completed', screen: 'CompleteRequest', icon: ImagePath.complete, logiReq: false },
+        { id: 6, name: 'Rejected', screen: 'RejectRequest', icon: ImagePath.reject, logiReq: false },
+        // { id: 6, name: 'Lost Request', screen: 'LostRequest', icon: ImagePath.complete, logiReq: false },
         { id: 8, name: 'Notification', screen: 'Notification', icon: ImagePath.bell, logiReq: false },
         { id: 9, name: 'Edit Profile', screen: 'EditProfile', icon: ImagePath.edit_profile, logiReq: false },
         { id: 10, name: 'Change Password', screen: 'ChangePassword', icon: ImagePath.lock, logiReq: false },
