@@ -45,15 +45,19 @@ const List = ({ item, onChangePrice, onChangeQty, status, editable, onShowImage 
                     <View style={[styles.priceContainer, item?.priceErr && { marginBottom: 0 }]}>
                         <Text style={[CommonStyle.boldblacktext, { width: '35%' }]}>Unit Price :</Text>
                         <View style={{ width: '60%', flexDirection: 'row', alignItems: 'center' }}>
-                            <TextInput
-                                value={item?.quote_price}
-                                onChangeText={text => onChangePrice(item, text)}
-                                style={[styles.priceInput, { width: '60%' }, item?.priceErr && { borderColor: 'red', borderWidth: 1 }]}
-                                keyboardType='number-pad'
-                                editable={editable}
-                                textAlignVertical='center'
-                                placeholder='Enter Price'
-                            />
+                            {(editable) ?
+                                <TextInput
+                                    value={item?.quote_price}
+                                    onChangeText={text => onChangePrice(item, text)}
+                                    style={[styles.priceInput, { width: '60%' }, item?.priceErr && { borderColor: 'red', borderWidth: 1 }]}
+                                    keyboardType='number-pad'
+                                    editable={editable}
+                                    textAlignVertical='center'
+                                    placeholder='Enter Price'
+                                />
+                                :
+                                <Text style={CommonStyle.normalText}>{item?.quote_price}</Text>
+                            }
                             <Text style={CommonStyle.boldblacktext}>  / {item?.unit_name}</Text>
                         </View>
                     </View>

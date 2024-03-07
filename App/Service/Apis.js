@@ -130,4 +130,17 @@ export default class Apis {
     static get_notification = (data) => {
         return Network('post', 'get-notifications', data)
     }
+
+    static pickup_scheduled = (data) => {
+        return Network('post', 'vendor-process-request-pickup-scheduled', data)
+    }
+
+    static vehicle_placed = (data) => {
+        return Network('post', 'vendor-process-request-vehicle-placed', data)
+    }
+
+    static material_weighted = (data) => {
+        return Network('post', 'vendor-process-request-material-weighted', data)
+    }
+
 }

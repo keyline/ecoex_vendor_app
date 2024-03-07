@@ -13,8 +13,8 @@ import CompleteRequest from '../../Screen/MainScreen/CompleteRequest';
 import RequestDetails from '../../Screen/MainScreen/RequestDetails';
 import Notification from '../../Screen/MainScreen/Notification';
 import LostRequest from '../../Screen/MainScreen/LostRequest';
-import WinRequest from '../../Screen/MainScreen/WinRequest';
 import ProcessesDetails from '../../Screen/MainScreen/ProcessesDetails';
+import ProcessesRequest from '../../Screen/MainScreen/ProcessesRequest';
 
 const MainStack = () => {
 
@@ -38,7 +38,7 @@ const MainStack = () => {
             <Stack.Screen name='RequestDetails' component={RequestDetails} />
             <Stack.Screen name='Notification' component={Notification} />
             <Stack.Screen name='LostRequest' component={LostRequest} />
-            <Stack.Screen name='WinRequest' component={WinRequest} />
+            <Stack.Screen name='ProcessesRequest' component={ProcessesRequest} />
             <Stack.Screen name='ProcessesDetails' component={ProcessesDetails} />
         </Stack.Navigator>
     )

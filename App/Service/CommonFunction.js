@@ -15,11 +15,39 @@ export const ToastError = () => {
     Toast.show('Something Went Wrong', Toast.LONG);
 }
 
+export const generateRandomId = () => {
+    return Math.random().toString(36).substring(2, 5) + Date.now().toString(36);
+};
+
 export const dateConvertNew = (value) => {
     if (value) {
         return moment(new Date(value)).format("DD-MM-YYYY")
     } else {
         return null
+    }
+}
+
+export const dateConvertWithTime = (value) => {
+    if (value) {
+        // return moment(new Date(value)).format("MMM DD, YYYY hh:mm a")
+        return moment(new Date(value)).format("lll")
+
+    } else {
+        return null
+    }
+}
+
+export const convertISOString = (value, format = "lll") => {
+    try {
+        if (value) {
+            let dt = moment(value, format).toDate();
+            return dt;
+        } else {
+            return new Date();
+        }
+    } catch (error) {
+        console.log('converterror', error);
+        return new Date();
     }
 }
 

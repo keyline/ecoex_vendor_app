@@ -44,5 +44,6 @@ export const ImagePath = {
     terms_condition:require('../Assets/Images/terms_condition.png'),
     privacy_policy:require('../Assets/Images/privacy_policy.png'),
     accept:require('../Assets/Images/accept.png'),
-    edit_image:require('../Assets/Images/edit_image.png')
+    edit_image:require('../Assets/Images/edit_image.png'),
+    image_upload:require('../Assets/Images/image_upload.png')
 }

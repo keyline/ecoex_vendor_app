@@ -16,7 +16,7 @@ import SortModal from '../../../Container/SortModal';
 import List from './List';
 import { useSharedValue } from 'react-native-reanimated';
 
-const WinRequest = ({ navigation }) => {
+const ProcessesRequest = ({ navigation }) => {
 
     const [state, setState] = useState({
         loading: false,
@@ -197,7 +197,7 @@ const WinRequest = ({ navigation }) => {
         // navigation.navigate('RequestDetails', { id: item?.enq_id })
         navigation.navigate('ProcessesDetails', { id: item?.sub_enquiry_no })
     })
-    
+
     const onReload = useCallback(async () => {
         if (page == 1 && orderField == 'request_id' && orderType == 'DESC') {
             onGetData('request_id', 'DESC', 1)
@@ -286,4 +286,4 @@ const WinRequest = ({ navigation }) => {
     )
 }
 
-export default WinRequest
+export default ProcessesRequest

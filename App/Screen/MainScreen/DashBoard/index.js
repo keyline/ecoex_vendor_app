@@ -9,6 +9,7 @@ import { ToastError, ToastMessage } from '../../../Service/CommonFunction'
 import { styles } from './styles'
 import Loader from '../../../Container/Loader'
 import AuthContext from '../../../Service/Context'
+import { Colors } from '../../../Utils/Colors'
 
 const DashBoard = ({ navigation }) => {
 
@@ -115,10 +116,11 @@ const DashBoard = ({ navigation }) => {
               <View style={styles.btnContent}>
                 <Text style={styles.headingText}>Request Status Wise Count</Text>
                 <View style={styles.btnContainer}>
-                  <BottonNew onPress={(() => onBtnPress('PendingRequest'))} name={state.data?.pending_enquiry + ' (' + state.data?.pending_count + ')'} color={'#264CD4'} />
-                  <BottonNew onPress={(() => onBtnPress('AcceptRequest'))} name={state.data?.accepted_enquiry + ' (' + state.data?.accepted_count + ')'} color={'#E79D0CE8'} />
-                  <BottonNew onPress={(() => onBtnPress('RejectRequest'))} name={state.data?.rejected_enquiry + ' (' + state.data?.rejected_count + ')'} color={'#E70C0CC9'} />
-                  <BottonNew onPress={(() => onBtnPress('CompleteRequest'))} name={state.data?.completed_enquiry + ' (' + state.data?.completed_count + ')'} color={'#2DA952'} />
+                  <BottonNew onPress={(() => onBtnPress('PendingRequest'))} name={state.data?.new_request + ' (' + state.data?.new_count + ')'} color={'#264CD4'} />
+                  <BottonNew onPress={(() => onBtnPress('AcceptRequest'))} name={state.data?.quotation_request + ' (' + state.data?.quotation_count + ')'} color={'#E79D0CE8'} />
+                  <BottonNew onPress={(() => onBtnPress('ProcessesRequest'))} name={state.data?.process_request + ' (' + state.data?.process_count + ')'} color={'#abdbe3'} />
+                  <BottonNew onPress={(() => onBtnPress('CompleteRequest'))} name={state.data?.completed_request + ' (' + state.data?.completed_count + ')'} color={'#2DA952'} />
+                  <BottonNew onPress={(() => onBtnPress('RejectRequest'))} name={state.data?.rejected_request + ' (' + state.data?.rejected_count + ')'} color={'#E70C0CC9'} />
                 </View>
 
               </View>
