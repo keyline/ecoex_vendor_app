@@ -215,6 +215,10 @@ export const getSubStatus = (status) => {
             return 'Payment received';
         case '10.10':
             return 'Vehicle Dispatched';
+        case '11.11':
+            return 'Payment to HO';
+        case '12.12':
+            return ' Order Complete';
         default:
             return '';
     }

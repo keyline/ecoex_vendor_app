@@ -741,6 +741,7 @@ const EditProfile = ({ navigation }) => {
                             name={'Mobile'}
                             value={state.phnNo}
                             onChangeText={onChangePhnNo}
+                            editable={false}
                             maxLength={10}
                             error={state.phnNoErr}
                             keyboardType={'phone-pad'}

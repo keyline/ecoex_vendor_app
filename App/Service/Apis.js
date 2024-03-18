@@ -143,4 +143,11 @@ export default class Apis {
         return Network('post', 'vendor-process-request-material-weighted', data)
     }
 
+    static invoice_payment = (data) => {
+        return Network('post', 'vendor-process-request-invoice-payment', data)
+    }
+
+    static vehicle_dispatch = (data) => {
+        return Network('post', 'vendor-process-request-vehicle-despatch', data)
+    }
 }

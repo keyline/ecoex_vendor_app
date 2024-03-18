@@ -57,6 +57,10 @@ const List = ({ item, index, headingColor, backgroundColor, onViewDetails, viewa
                             <Text style={CommonStyle.normalText}>Status :</Text>
                             <Text style={CommonStyle.boldblacktext}>{item?.enquiry_sub_status}</Text>
                         </View>
+                        <View style={styles.listtileContent}>
+                                <Text style={CommonStyle.normalText}>Plant :</Text>
+                                <Text style={[CommonStyle.boldblacktext,{fontSize:12,width:'60%',textAlign:'right'}]}> {item?.plant_name}</Text>
+                            </View>
                         {(item?.assigned_date) && (
                             <View style={styles.listtileContent}>
                                 <Text style={CommonStyle.normalText}>Assigned :</Text>

@@ -14,6 +14,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import Apis from '../../../Service/Apis'
 import { GetUniqueArray, ToastError, ToastMessage } from '../../../Service/CommonFunction'
 import { useSharedValue } from 'react-native-reanimated'
+import List from './List'
 
 const CompleteRequest = ({ navigation }) => {
 
@@ -53,9 +54,11 @@ const CompleteRequest = ({ navigation }) => {
             let datas = {
                 order_field: field,
                 order_type: type,
-                page_no: pages
+                page_no: pages,
+                sub_status: [ '12.12']
+
             }
-            let response = await Apis.complete_request(datas);
+            let response = await Apis.processes_request(datas);
             if (__DEV__) {
                 console.log('CompleteRequest', JSON.stringify(response))
             }
@@ -192,7 +195,8 @@ const CompleteRequest = ({ navigation }) => {
     });
 
     const onViewDetails = useCallback(async (item) => {
-        navigation.navigate('RequestDetails', { id: item?.enq_id })
+        // navigation.navigate('RequestDetails', { id: item?.enq_id })
+        navigation.navigate('ProcessesDetails', { id: item?.sub_enquiry_no })
     })
 
     const onReload = useCallback(async () => {
@@ -249,7 +253,7 @@ const CompleteRequest = ({ navigation }) => {
                             keyExtractor={(item, index) => item.enq_id.toString()}
                             viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
                             renderItem={({ item, index }) =>
-                                <RequestList
+                                <List
                                     item={item}
                                     index={index}
                                     headingColor={Colors.theme_light}

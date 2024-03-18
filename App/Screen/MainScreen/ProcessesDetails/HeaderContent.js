@@ -21,6 +21,7 @@ const HeaderContent = ({ data }) => {
         <View style={[styles.listContainer, { borderWidth: 1 }]}>
             <NameValue name={'Enquiry No.'} value={data?.enquiry_no} />
             <NameValue name={'Sub Enquiry No.'} value={data?.sub_enquiry_no} />
+            <NameValue name={'Plant Name'} value={data?.plant_name} />
             {(data?.assigned_date) && <NameValue name={getSubStatus('3.3')} value={data?.assigned_date} fontSize={12} />}
             {(data?.pickup_scheduled_date) &&
                 //  <NameValue name={getSubStatus('4.4')} value={data?.pickup_scheduled_date} fontSize={12} />
@@ -34,12 +35,12 @@ const HeaderContent = ({ data }) => {
                             </TouchableOpacity>
                         )}
                     >
-                        <View style={{ width: screenWidth * 0.5,justifyContent:'center',alignItems:'center',paddingVertical:15 }}>
+                        <View style={{ width: screenWidth * 0.5, justifyContent: 'center', alignItems: 'center', paddingVertical: 15 }}>
                             <Text style={CommonStyle.boldblacktext}>Pickup Scheduled Logs :</Text>
                             {(data?.pickup_date_logs && data?.pickup_date_logs.length > 0) && (
                                 <>
                                     {data?.pickup_date_logs.map((item, key) => (
-                                        <Text key={key} style={[CommonStyle.normalText,{marginTop:4}]}>{item?.pickup_date}</Text>
+                                        <Text key={key} style={[CommonStyle.normalText, { marginTop: 4 }]}>{item?.pickup_date}</Text>
                                     ))}
                                 </>
                             )}
@@ -52,6 +53,8 @@ const HeaderContent = ({ data }) => {
             {(data?.invoice_to_vendor_date) && <NameValue name={getSubStatus('8.8')} value={data?.invoice_to_vendor_date} fontSize={12} />}
             {(data?.vendor_payment_received_date) && <NameValue name={getSubStatus('9.9')} value={data?.vendor_payment_received_date} fontSize={12} />}
             {(data?.vehicle_dispatched_date) && <NameValue name={getSubStatus('10.10')} value={data?.vehicle_dispatched_date} fontSize={12} />}
+            {(data?.order_complete_date) && <NameValue name={'Order Completed'} value={data?.order_complete_date} fontSize={12} />}
+
         </View>
     )
 }

@@ -40,8 +40,8 @@ const VehicleDetails = ({ vehicleData, alldata, onShowImage }) => {
                 <View style={{ marginTop: '2%' }}>
                     {(state.data).map((item, key) => (
                         <View key={key} style={styles.vehiclelist}>
-                            <Text style={[CommonStyle.boldblacktext, { textAlign: 'center' }]}>Vehicle No. : {key + 1}</Text>
-                            <View style={[styles.flex, { paddingBottom: '4%', paddingTop: '5%' }]}>
+                            <Text style={[CommonStyle.boldblacktext, { textAlign: 'center' }]}>Vehicle : {key + 1}</Text>
+                            <View style={[styles.flex, { paddingBottom: '4%', paddingTop: '2%' }]}>
                                 <Text style={CommonStyle.boldblacktext}>Vehicle No. :</Text>
                                 <Text style={[CommonStyle.normalText, { width: '50%' }]}>{item?.vehicle_no}</Text>
                             </View>

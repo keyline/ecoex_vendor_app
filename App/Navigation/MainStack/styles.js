@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
         fontFamily: Font_Family.NunitoSans_Bold,
         // fontSize:16
         fontWeight: 'bold',
-        color: Colors.black
+        color: Colors.black,
+        fontSize: 12
     },
     imgContainer: {
         justifyContent: 'center',
@@ -36,6 +37,8 @@ export const styles = StyleSheet.create({
     nameText: {
         fontFamily: Font_Family.NunitoSans_Bold,
         color: Colors.black,
+        textAlign: 'center',
+        fontSize: 12,
         marginTop: '8%'
     },
     editContainer: {

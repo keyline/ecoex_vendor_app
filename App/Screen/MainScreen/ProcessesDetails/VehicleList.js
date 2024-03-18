@@ -16,7 +16,7 @@ const VehicleList = ({ item, index, length, onDeleteVehicle, onChangeVehicleNo, 
             <Text style={[CommonStyle.boldblacktext, { textAlign: 'center' }]}>Vehicle No. : {index + 1}</Text>
             <View style={{ paddingBottom: '4%', paddingTop: '5%' }}>
                 <View style={[styles.flex,]}>
-                    <Text style={CommonStyle.boldblacktext}>Vehicle No. :</Text>
+                    <Text style={CommonStyle.boldblacktext}>Vehicle :</Text>
                     <TextInput
                         placeholder='Enter Vehicle No.'
                         style={[styles.veListInput, { borderWidth: 1 }, item.vehicle_noErr && { borderColor: 'red', borderWidth: 1.5 }]}

@@ -57,14 +57,18 @@ const RequestList = ({ item, index, headingColor, backgroundColor, onAccept, onR
             </TouchableOpacity>
             {(show) && (
                 <TouchableOpacity onPress={() => onViewDetails(item)} disabled={!onViewDetails} activeOpacity={0.5} style={styles.listContent}>
-                    <View style={{ width: '60%' }}>
+                    <View style={{ width: '80%' }}>
                         <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 5, paddingBottom: 5 }}>
                             <Text style={CommonStyle.normalText}>Added :</Text>
                             <Text style={CommonStyle.boldblacktext}> {item?.created_at}</Text>
                         </View>
-                        <View>
+                        <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 5, paddingBottom: 5 }}>
                             <Text style={CommonStyle.normalText}>Modified :</Text>
                             <Text style={CommonStyle.boldblacktext}> {item.updated_at ? item?.updated_at : '---'}</Text>
+                        </View>
+                        <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 10, paddingBottom: 5 }}>
+                            <Text style={CommonStyle.normalText}>Plant :</Text>
+                            <Text style={[CommonStyle.boldblacktext, { fontSize: 10 }]}> {item?.plant_name}</Text>
                         </View>
                     </View>
                     {(item?.status == "0") && (
@@ -81,7 +85,7 @@ const RequestList = ({ item, index, headingColor, backgroundColor, onAccept, onR
                         <Popover
                             from={(
                                 < TouchableOpacity activeOpacity={0.5} style={styles.infoContainer}>
-                                    <Text style={[CommonStyle.normalText,{fontSize:12}]}>Submited : <Text style={CommonStyle.boldblacktext}>{item?.submitted_count} time(s)</Text>  </Text>
+                                    <Text style={[CommonStyle.normalText, { fontSize: 12 }]}>Submited : <Text style={CommonStyle.boldblacktext}>{item?.submitted_count} time(s)</Text>  </Text>
                                     <Image source={ImagePath.info} style={styles.info} />
                                 </TouchableOpacity>
                             )}
@@ -102,7 +106,7 @@ const RequestList = ({ item, index, headingColor, backgroundColor, onAccept, onR
                     )}
                     {(item?.status == 1 && item?.submitted_count < 1) && (
                         <View style={styles.infoContainer}>
-                            <Text style={[CommonStyle.normalText, { color: Colors.red,fontSize:12 }]}>Quotation Not Submited </Text>
+                            <Text style={[CommonStyle.normalText, { color: Colors.red, fontSize: 12 }]}>Quotation Not Submited </Text>
                         </View>
                     )}
                 </TouchableOpacity>

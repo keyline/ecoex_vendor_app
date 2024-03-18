@@ -220,7 +220,7 @@ const AcceptRequest = ({ navigation }) => {
     return (
         <SafeAreaView style={CommonStyle.container}>
             <Header
-                name={'Accepted Request'}
+                name={'Quotation Request'}
                 leftIcon={ImagePath.home}
                 leftOnPress={onHeaderPress}
             />

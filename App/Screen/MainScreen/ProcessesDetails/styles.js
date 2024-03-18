@@ -1,6 +1,7 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { Font_Family } from "../../../Utils/Fonts";
 import { Colors } from "../../../Utils/Colors";
+const { width } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
     bodyContainer: {
@@ -95,7 +96,7 @@ export const styles = StyleSheet.create({
         width: '60%',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignItems:'center'
+        alignItems: 'center'
     },
     addmoreBtn: {
         backgroundColor: Colors.theme_light,
@@ -124,7 +125,7 @@ export const styles = StyleSheet.create({
         zIndex: 99
 
     },
-    imgCountContent:{
+    imgCountContent: {
         // position:'absolute',
         // top:'50%'
         ...StyleSheet.absoluteFillObject,
@@ -142,4 +143,36 @@ export const styles = StyleSheet.create({
         height: 12,
         resizeMode: 'contain'
     },
+    invoiceContainer: {
+        backgroundColor: Colors.light_grey,
+        paddingVertical: '2%',
+        paddingHorizontal: '4%'
+    },
+    modalStyle: {
+        margin: 0,
+        width: width
+    },
+    modalContainer: {
+        flex: 1,
+        position: 'absolute',
+        width: '100%',
+        alignSelf: 'center',
+        bottom: 0,
+        // height:'50%',
+        // left: 0,
+        backgroundColor: Colors.white,
+        borderTopWidth: 2,
+        borderLeftWidth: 2,
+        borderRightWidth: 2,
+        borderColor: Colors.theme_color,
+        borderRadius: 10,
+        paddingTop: '6%',
+        paddingBottom: '2%',
+        paddingHorizontal: '6%'
+    },
+    vehicleHinttext:{
+        fontFamily:Font_Family.NunitoSans_Italic,
+        color:Colors.black,
+        textAlign:'center'
+    }
 })

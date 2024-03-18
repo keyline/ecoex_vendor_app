@@ -20,6 +20,10 @@ import ImageOptions from '../../../Container/ImageOptions'
 import HeaderContent from './HeaderContent'
 import VehicleDetails from './VehicleDetails'
 import MaterialWeightList from './MaterialWeightList'
+import Invoice from './Invoice'
+import PaymentModal from './PaymentModal'
+import PaymentDetails from './PaymentDetails'
+import VehicleDispatch from './VehicleDispatch'
 
 const VehicleObject = () => {
     let id = generateRandomId();
@@ -50,6 +54,7 @@ const ProcessesDetails = ({ navigation, route }) => {
         imageOptionModal: false,
         imagetype: null,
         selectedVehicle: null,
+        showPaymentModal: false,
     })
     const [vehicleList, setvehicleList] = useState(Array.from({ length: 1 }, (_, index) => (vehicleobj)));
     const [materialWeightList, setmaterialWeightList] = useState([]);
@@ -524,6 +529,52 @@ const ProcessesDetails = ({ navigation, route }) => {
         }
     })
 
+    const onShowPaymentModal = useCallback(() => {
+        setState(prev => ({
+            ...prev,
+            showPaymentModal: true
+        }))
+    })
+
+    const onHidePaymentModal = useCallback(() => {
+        setState(prev => ({
+            ...prev,
+            showPaymentModal: false
+        }))
+    })
+
+    const onVehicleDispatch = useCallback(async () => {
+        try {
+            setState(prev => ({
+                ...prev,
+                loadingNew: true
+            }))
+            let datas = {
+                sub_enq_no: state.data?.sub_enquiry_no
+            }
+            let res = await Apis.vehicle_dispatch(datas);
+            if (res.success) {
+                state.data.enquiry_sub_status_id = '10.10';
+                state.data.enquiry_sub_status = getSubStatus('10.10');
+                state.data.vehicle_dispatched_date = dateConvertWithTime(new Date());
+            }
+            setState(prev => ({
+                ...prev,
+                loadingNew: false
+            }))
+            ToastMessage(res?.message);
+        } catch (error) {
+            if (__DEV__) {
+                console.log(error)
+            }
+            setState(prev => ({
+                ...prev,
+                loadingNew: false
+            }))
+            ToastError();
+        }
+    })
+
     return (
         <SafeAreaView style={CommonStyle.container}>
             <Header
@@ -634,11 +685,27 @@ const ProcessesDetails = ({ navigation, route }) => {
                                         </View>
                                     </View>
                                 )}
+                                {(state.data?.enquiry_sub_status_id >= 8.8) && (
+                                    <Invoice data={state.data} onPayment={onShowPaymentModal} navigation={navigation} />
+                                )}
+                                {(state.data?.enquiry_sub_status_id >= 8.8 && state.data?.payment?.payment_amount) && (
+                                    <PaymentDetails data={state.data?.payment} onShowImage={onShowGpsImage} />
+                                )}
+                                {(state.data?.enquiry_sub_status_id == 9.9 && state.data?.payment?.is_approve_vendor_payment > 0) && (
+                                    <VehicleDispatch data={state.data} onVehicleDispatch={onVehicleDispatch} />
+                                )}
                             </View>
                         </View>
                     )}
                 </ScrollView>
             }
+            <PaymentModal
+                isVisible={state.showPaymentModal}
+                onHideModal={onHidePaymentModal}
+                data={state.data}
+                onShowImage={onShowGpsImage}
+                onPaymentSubmit={onGetData}
+            />
             {(state.sliderImage) && (
                 <ImageViewSlider
                     images={state.sliderImage}
