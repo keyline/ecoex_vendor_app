@@ -57,29 +57,35 @@ const RequestList = ({ item, index, headingColor, backgroundColor, onAccept, onR
             </TouchableOpacity>
             {(show) && (
                 <TouchableOpacity onPress={() => onViewDetails(item)} disabled={!onViewDetails} activeOpacity={0.5} style={styles.listContent}>
-                    <View style={{ width: '80%' }}>
+                    <View style={{ width: '100%' }}>
                         <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 5, paddingBottom: 5 }}>
-                            <Text style={CommonStyle.normalText}>Added :</Text>
-                            <Text style={CommonStyle.boldblacktext}> {item?.created_at}</Text>
+                            <Text style={CommonStyle.normalText}>Company :</Text>
+                            <Text style={[CommonStyle.boldblacktext, { fontSize: 10 }]}> {item?.company_name}</Text>
                         </View>
                         <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 5, paddingBottom: 5 }}>
-                            <Text style={CommonStyle.normalText}>Modified :</Text>
-                            <Text style={CommonStyle.boldblacktext}> {item.updated_at ? item?.updated_at : '---'}</Text>
-                        </View>
-                        <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 10, paddingBottom: 5 }}>
                             <Text style={CommonStyle.normalText}>Plant :</Text>
                             <Text style={[CommonStyle.boldblacktext, { fontSize: 10 }]}> {item?.plant_name}</Text>
                         </View>
+                        <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 5, paddingBottom: 5 }}>
+                            <Text style={CommonStyle.normalText}>Added :</Text>
+                            <Text style={[CommonStyle.boldblacktext, { fontSize: 10 }]}> {item?.created_at}</Text>
+                        </View>
+                        <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 5, paddingBottom: 5 }}>
+                            <Text style={CommonStyle.normalText}>Modified :</Text>
+                            <Text style={[CommonStyle.boldblacktext, { fontSize: 10 }]}> {item.updated_at ? item?.updated_at : '---'}</Text>
+                        </View>
                     </View>
                     {(item?.status == "0") && (
-                        <>
+                        <View style={styles.btnContainer}>
                             <TouchableOpacity onPress={() => onReject(item, "3")} disabled={!onReject} activeOpacity={0.5} style={styles.deleteContainer}>
                                 <Image source={ImagePath.close_round} style={styles.delete} />
+                                <Text style={[CommonStyle.normalText, { color: Colors.white, fontSize: 12 }]}> Click to Reject</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => onAccept(item, "1")} disabled={!onAccept} activeOpacity={0.5} style={styles.editContainer}>
                                 <Image source={ImagePath.accept} style={styles.edit} />
+                                <Text style={[CommonStyle.normalText, { color: Colors.white, fontSize: 12 }]}> Click to Accept</Text>
                             </TouchableOpacity>
-                        </>
+                        </View>
                     )}
                     {(item?.status != "0" && item?.submitted_count > 0) && (
                         <Popover

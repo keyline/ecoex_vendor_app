@@ -28,27 +28,46 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 10
     },
+    btnContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        // alignSelf: 'flex-end',
+        justifyContent:'space-evenly',
+        marginTop:'2%'
+    },
     deleteContainer: {
-        position: 'absolute',
-        top: 10,
-        right: 15
+        // position: 'absolute',
+        // top: 10,
+        // right: 15
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'red',
+        paddingHorizontal: '2%',
+        paddingVertical: '1.2%',
+        borderRadius: 20
     },
     delete: {
-        width: 25,
-        height: 25,
+        width: 15,
+        height: 15,
         resizeMode: 'contain',
-        tintColor: 'red'
+        tintColor: 'white'
     },
     editContainer: {
-        position: 'absolute',
-        bottom: 15,
-        right: 15
+        // position: 'absolute',
+        // bottom: 15,
+        // right: 15
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: Colors.theme_color,
+        paddingHorizontal: '2%',
+        paddingVertical: '1.2%',
+        borderRadius: 20
     },
     edit: {
-        width: 25,
-        height: 25,
+        width: 15,
+        height: 15,
         resizeMode: 'contain',
-        tintColor: 'green'
+        tintColor: 'white'
     },
     infoContainer: {
         // backgroundColor:'red',

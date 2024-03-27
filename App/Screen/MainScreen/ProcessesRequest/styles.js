@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../../../Utils/Colors";
+import { Font_Family } from "../../../Utils/Fonts";
 
 export const styles = StyleSheet.create({
     header: {
@@ -90,5 +91,15 @@ export const styles = StyleSheet.create({
         borderColor: Colors.grey,
         marginTop: 5,
         paddingTop: 5
+    },
+    normalText:{
+        fontFamily:Font_Family.NunitoSans_Regular,
+        color:Colors.black,
+        fontSize:12
+    },
+    boldblacktext:{
+        fontFamily:Font_Family.NunitoSans_Bold,
+        color:Colors.black,
+        fontSize:12
     }
 })

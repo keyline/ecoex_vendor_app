@@ -212,7 +212,7 @@ export const getSubStatus = (status) => {
         case '8.8':
             return 'Invoice to Vendor';
         case '9.9':
-            return 'Payment received';
+            return 'Payment Received';
         case '10.10':
             return 'Vehicle Dispatched';
         case '11.11':

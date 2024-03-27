@@ -252,9 +252,10 @@ const ProcessesDetails = ({ navigation, route }) => {
 
     const onChangeVehicleNo = useCallback(async (text, item) => {
         if (item) {
+            let filtertext = text.replace(/\s/g, '');
             let temparr = vehicleList.map(obj => {
                 if (obj.id == item.id) {
-                    return { ...obj, vehicle_no: text, vehicle_noErr: '' };
+                    return { ...obj, vehicle_no: filtertext, vehicle_noErr: '' };
                 }
                 return obj;
             })
@@ -691,7 +692,7 @@ const ProcessesDetails = ({ navigation, route }) => {
                                 {(state.data?.enquiry_sub_status_id >= 8.8 && state.data?.payment?.payment_amount) && (
                                     <PaymentDetails data={state.data?.payment} onShowImage={onShowGpsImage} />
                                 )}
-                                {(state.data?.enquiry_sub_status_id == 9.9 && state.data?.payment?.is_approve_vendor_payment > 0) && (
+                                {(state.data?.enquiry_sub_status_id == 9.9) && (
                                     <VehicleDispatch data={state.data} onVehicleDispatch={onVehicleDispatch} />
                                 )}
                             </View>

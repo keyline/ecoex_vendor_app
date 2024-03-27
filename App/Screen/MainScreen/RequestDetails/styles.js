@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
         height: 38,
         borderColor: Colors.grey,
         paddingHorizontal: 10,
-        color:Colors.black
+        color: Colors.black
     },
     imgBtn: {
         alignSelf: 'center',
@@ -68,12 +68,40 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         alignSelf: 'flex-end',
-        marginRight:'1%',
-        marginTop:'1%'
+        marginRight: '1%',
+        marginTop: '1%'
     },
     info: {
         width: 15,
         height: 15,
         resizeMode: 'contain'
     },
+    acptrejectContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        marginTop: '10%'
+    },
+    rejectContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'red',
+        paddingHorizontal: '2%',
+        paddingVertical: '2%',
+        borderRadius: 5
+    },
+    acceptContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: Colors.theme_color,
+        paddingHorizontal: '2%',
+        paddingVertical: '2%',
+        borderRadius: 5
+    },
+    rejecticon: {
+        width: 20,
+        height: 20,
+        tintColor: 'white'
+    },
+
 })

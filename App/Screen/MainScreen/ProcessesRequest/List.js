@@ -58,49 +58,49 @@ const List = ({ item, index, headingColor, backgroundColor, onViewDetails, viewa
                             <Text style={CommonStyle.boldblacktext}>{item?.enquiry_sub_status}</Text>
                         </View>
                         <View style={styles.listtileContent}>
-                                <Text style={CommonStyle.normalText}>Plant :</Text>
-                                <Text style={[CommonStyle.boldblacktext,{fontSize:12,width:'60%',textAlign:'right'}]}> {item?.plant_name}</Text>
+                                <Text style={styles.normalText}>Plant :</Text>
+                                <Text style={[styles.boldblacktext,{fontSize:12,width:'60%',textAlign:'right'}]}> {item?.plant_name}</Text>
                             </View>
                         {(item?.assigned_date) && (
                             <View style={styles.listtileContent}>
-                                <Text style={CommonStyle.normalText}>Assigned :</Text>
-                                <Text style={CommonStyle.boldblacktext}> {item.assigned_date ? item?.assigned_date : '---'}</Text>
+                                <Text style={styles.normalText}>Assigned :</Text>
+                                <Text style={styles.boldblacktext}> {item.assigned_date ? item?.assigned_date : '---'}</Text>
                             </View>
                         )}
                         {(item?.pickup_scheduled_date) && (
                             <View style={styles.listtileContent}>
-                                <Text style={CommonStyle.normalText}>{getSubStatus('4.4')} :</Text>
-                                <Text style={CommonStyle.boldblacktext}> {item.pickup_scheduled_date ? item?.pickup_scheduled_date : '---'}</Text>
+                                <Text style={styles.normalText}>{getSubStatus('4.4')} :</Text>
+                                <Text style={styles.boldblacktext}> {item.pickup_scheduled_date ? item?.pickup_scheduled_date : '---'}</Text>
                             </View>
                         )}
                         {(item?.vehicle_placed_date) && (
                             <View style={styles.listtileContent}>
-                                <Text style={CommonStyle.normalText}>{getSubStatus('5.5')} :</Text>
-                                <Text style={CommonStyle.boldblacktext}> {item.vehicle_placed_date ? item?.vehicle_placed_date : '---'}</Text>
+                                <Text style={styles.normalText}>{getSubStatus('5.5')} :</Text>
+                                <Text style={styles.boldblacktext}> {item.vehicle_placed_date ? item?.vehicle_placed_date : '---'}</Text>
                             </View>
                         )}
                         {(item?.material_weighted_date) && (
                             <View style={styles.listtileContent}>
-                                <Text style={CommonStyle.normalText}>{getSubStatus('6.6')} :</Text>
-                                <Text style={CommonStyle.boldblacktext}> {item.material_weighted_date ? item?.material_weighted_date : '---'}</Text>
+                                <Text style={styles.normalText}>{getSubStatus('6.6')} :</Text>
+                                <Text style={styles.boldblacktext}> {item.material_weighted_date ? item?.material_weighted_date : '---'}</Text>
                             </View>
                         )}
                         {(item?.invoice_to_vendor_date) && (
                             <View style={styles.listtileContent}>
-                                <Text style={CommonStyle.normalText}>{getSubStatus('8.8')} :</Text>
-                                <Text style={CommonStyle.boldblacktext}> {item.invoice_to_vendor_date ? item?.invoice_to_vendor_date : '---'}</Text>
+                                <Text style={styles.normalText}>{getSubStatus('8.8')} :</Text>
+                                <Text style={styles.boldblacktext}> {item.invoice_to_vendor_date ? item?.invoice_to_vendor_date : '---'}</Text>
                             </View>
                         )}
                         {(item?.vendor_payment_received_date) && (
                             <View style={styles.listtileContent}>
-                                <Text style={CommonStyle.normalText}>{getSubStatus('9.9')} :</Text>
-                                <Text style={CommonStyle.boldblacktext}> {item.vendor_payment_received_date ? item?.vendor_payment_received_date : '---'}</Text>
+                                <Text style={styles.normalText}>{getSubStatus('9.9')} :</Text>
+                                <Text style={styles.boldblacktext}> {item.vendor_payment_received_date ? item?.vendor_payment_received_date : '---'}</Text>
                             </View>
                         )}
                         {(item?.vehicle_dispatched_date) && (
                             <View style={styles.listtileContent}>
-                                <Text style={CommonStyle.normalText}>{getSubStatus('10.10')} :</Text>
-                                <Text style={CommonStyle.boldblacktext}> {item.vehicle_dispatched_date ? item?.vehicle_dispatched_date : '---'}</Text>
+                                <Text style={styles.normalText}>{getSubStatus('10.10')} :</Text>
+                                <Text style={styles.boldblacktext}> {item.vehicle_dispatched_date ? item?.vehicle_dispatched_date : '---'}</Text>
                             </View>
                         )}
                     </View>

@@ -53,16 +53,20 @@ const List = ({ item, index, headingColor, backgroundColor, onEdit, onDelete, on
                 <TouchableOpacity onPress={() => onViewDetails(item)} activeOpacity={0.5} style={styles.listContent}>
                     <View style={{ width: '90%' }}>
                         <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 5, paddingBottom: 5 }}>
+                            <Text style={CommonStyle.normalText}>Company :</Text>
+                            <Text style={[CommonStyle.boldblacktext, { fontSize: 10 }]}> {item?.company_name}</Text>
+                        </View>
+                        <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 5, paddingBottom: 5 }}>
+                            <Text style={CommonStyle.normalText}>Plant :</Text>
+                            <Text style={[CommonStyle.boldblacktext, { fontSize: 10 }]}> {item?.plant_name}</Text>
+                        </View>
+                        <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 5, paddingBottom: 5 }}>
                             <Text style={CommonStyle.normalText}>Assigned :</Text>
-                            <Text style={CommonStyle.boldblacktext}> {item?.assigned_date}</Text>
+                            <Text style={[CommonStyle.boldblacktext, { fontSize: 10 }]}> {item?.assigned_date}</Text>
                         </View>
                         <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 5, paddingBottom: 5 }}>
                             <Text style={CommonStyle.normalText}>Completed :</Text>
-                            <Text style={CommonStyle.boldblacktext}> {item.order_complete_date ? item?.order_complete_date : '---'}</Text>
-                        </View>
-                        <View style={{ borderBottomWidth: 0.8, borderColor: Colors.grey, marginBottom: 10, paddingBottom: 5 }}>
-                            <Text style={CommonStyle.normalText}>Plant :</Text>
-                            <Text style={[CommonStyle.boldblacktext,{fontSize:10}]}> {item?.plant_name}</Text>
+                            <Text style={[CommonStyle.boldblacktext, { fontSize: 10 }]}> {item.order_complete_date ? item?.order_complete_date : '---'}</Text>
                         </View>
                         {/* <View>
                         <Text style={CommonStyle.normalText}>Tentative Collection :</Text>

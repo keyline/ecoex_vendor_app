@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList, RefreshControl, TouchableOpacity, Image, Dimensions } from 'react-native'
+import { View, Text, SafeAreaView, FlatList, RefreshControl, TouchableOpacity, Image, Dimensions, Alert } from 'react-native'
 import React, { useCallback, useState } from 'react'
 import { CommonStyle } from '../../../Utils/CommonStyle'
 import Header from '../../../Container/Header'
@@ -13,6 +13,7 @@ import Button from '../../../Container/Button'
 import LoaderTransparent from '../../../Container/LoaderTransparent'
 import ImageViewSlider from '../../../Container/ImageViewSlider'
 import Popover from 'react-native-popover-view'
+import { Colors } from '../../../Utils/Colors'
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -92,9 +93,10 @@ const RequestDetails = ({ navigation, route }) => {
 
     const onChangePrice = useCallback(async (item, price) => {
         if (item) {
+            let filterprice = price.replace(/[^0-9]/g, '');
             let updateArray = state.requestList.map(obj => {
                 if (obj.enq_product_id === item.enq_product_id) {
-                    return { ...obj, quote_price: price, priceErr: '' }
+                    return { ...obj, quote_price: filterprice, priceErr: '' }
                 }
                 return obj;
             });
@@ -120,6 +122,85 @@ const RequestDetails = ({ navigation, route }) => {
         }
     })
 
+    const onAcceptAlert = useCallback(async () => {
+        Alert.alert(
+            'Enquiry Quotation Request Accept!',
+            'Do you really want to accept this request?',
+            [
+                {
+                    text: 'No',
+                    onPress: () => null
+                },
+                {
+                    text: 'Yes',
+                    onPress: () => onAcceptReject('1')
+                }
+            ],
+            { cancelable: true }
+        )
+    })
+
+    const onRejectAlert = useCallback(async () => {
+        Alert.alert(
+            'Enquiry Quotation Request Reject!',
+            'Do you really want to reject this request?',
+            [
+                {
+                    text: 'No',
+                    onPress: () => null
+                },
+                {
+                    text: 'Yes',
+                    onPress: () => onAcceptReject('3')
+                }
+            ],
+            { cancelable: true }
+        )
+    })
+
+    const onAcceptReject = useCallback(async (value) => {
+        try {
+            setState(prev => ({
+                ...prev,
+                loadingNew: true
+            }))
+            let datas = {
+                quotation_request_status: value,
+                enq_id: state.data?.enq_id
+            }
+            let res = await Apis.accept_reject_request(datas)
+            if (__DEV__) {
+                console.log('AcceptReject', JSON.stringify(res))
+            }
+            if (res?.success) {
+                setState(prev => ({
+                    ...prev,
+                    loadingNew: false
+                }));
+                if (value == '1') {
+                    navigation.navigate('AcceptRequest');
+                } else if (value == "3") {
+                    navigation.navigate('RejectRequest');
+                }
+            } else {
+                setState(prev => ({
+                    ...prev,
+                    loadingNew: false
+                }))
+            }
+            ToastMessage(res?.message);
+        } catch (error) {
+            if (__DEV__) {
+                console.log(error)
+            }
+            setState(prev => ({
+                ...prev,
+                loadingNew: false
+            }))
+            ToastError();
+        }
+    })
+
     const renderHeader = () => (
         <View style={[styles.listContainer, { borderWidth: 1 }]}>
             <NameValue name={'Request ID'} value={state.data?.enquiry_no} />
@@ -129,10 +210,22 @@ const RequestDetails = ({ navigation, route }) => {
     )
 
     const renderFooter = () => (
-        <View style={{paddingVertical:'3%'}}>
+        <View style={{ paddingVertical: '3%' }}>
             <TouchableOpacity onPress={() => onShowGpsImage(state.data?.gps_image)} activeOpacity={0.5} style={[styles.imgBtn, { marginTo: '2%', paddingHorizontal: '4.5%' }]}>
                 <Text style={styles.imgBtnText}>View GPS Image</Text>
             </TouchableOpacity>
+            {(state.status == '0') && (
+                <View style={styles.acptrejectContainer}>
+                    <TouchableOpacity onPress={onRejectAlert} activeOpacity={0.5} style={styles.rejectContainer}>
+                        <Image source={ImagePath.close_round} style={styles.rejecticon} />
+                        <Text style={[CommonStyle.normalText, { color: Colors.white, fontWeight: '700' }]}> Click to Reject</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={onAcceptAlert} activeOpacity={0.5} style={styles.acceptContainer}>
+                        <Image source={ImagePath.accept} style={styles.rejecticon} />
+                        <Text style={[CommonStyle.normalText, { color: Colors.white, fontWeight: '700' }]}> Click to Accept</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
             {(state.status == '1' && state.data?.is_editable == '1') && (
                 <Button
                     name={'Send Quotation'}
@@ -150,6 +243,8 @@ const RequestDetails = ({ navigation, route }) => {
     )
 
     const onSubmit = useCallback(async () => {
+        let priceempty = state.requestList.some(obj => (obj.quote_price.trim() != ''))
+        console.log('preiceindex', priceempty);
         // let qtyEmptyIndex = state.requestList.findIndex(obj => obj.qty.trim() == '')
         let priceEmptyIndex = state.requestList.findIndex(obj => obj.quote_price.trim() == '')
         // if (qtyEmptyIndex != -1) {
@@ -165,7 +260,20 @@ const RequestDetails = ({ navigation, route }) => {
         //     }))
         //     return
         // } else 
-        if (priceEmptyIndex != -1) {
+        // if (priceEmptyIndex != -1) {
+        //     let updatearr = state.requestList.map(obj => {
+        //         if (obj.quote_price.trim() == '') {
+        //             return { ...obj, priceErr: 'Enter Quote Price' }
+        //         }
+        //         return obj
+        //     })
+        //     setState(prev => ({
+        //         ...prev,
+        //         requestList: updatearr
+        //     }))
+        //     return
+        // } 
+        if (!priceempty) {
             let updatearr = state.requestList.map(obj => {
                 if (obj.quote_price.trim() == '') {
                     return { ...obj, priceErr: 'Enter Quote Price' }
@@ -195,6 +303,16 @@ const RequestDetails = ({ navigation, route }) => {
                 if (res.success) {
                     state.data.is_editable = '0'
                     state.data.is_quotation_submit = '1'
+                    let updatearr = state.requestList.map(obj => {
+                        if (obj.quote_price.trim() == '') {
+                            return { ...obj, quote_price: '0', priceErr: '' }
+                        }
+                        return obj
+                    })
+                    setState(prev => ({
+                        ...prev,
+                        requestList: updatearr
+                    }))
                 }
                 setState(prev => ({
                     ...prev,
